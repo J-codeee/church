@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>United with Christ through the Holy Spirit Church</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --gold: #f59e0b;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-light);
+        }
+
+        /* Modern Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            color: var(--accent);
+        }
+
+        .logo::before {
+            content: "✞";
+            font-size: 1.8rem;
+            color: var(--gold);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .auth-section {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-ghost {
+            color: var(--text-secondary);
+            background: transparent;
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .btn-primary {
+            color: white;
+            background: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-success {
+            color: white;
+            background: #10b981;
+            border: 1px solid #10b981;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            border-color: #059669;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-danger {
+            color: white;
+            background: #ef4444;
+            border: 1px solid #ef4444;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+
+        /* Mobile menu toggle */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .mobile-toggle:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .mobile-toggle span {
+            width: 20px;
+            height: 2px;
+            background: var(--text-secondary);
+            margin: 2px 0;
+            transition: 0.3s;
+            border-radius: 1px;
+        }
+
+        /* Hero Section - Completely Redesigned */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="600" cy="800" r="120" fill="url(%23a)"/></svg>') no-repeat center center;
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+            font-style: italic;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero-verse {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+        }
+
+        .hero-btn {
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-btn-primary {
+            background: var(--gold);
+            color: var(--primary);
+            border: 2px solid var(--gold);
+        }
+
+        .hero-btn-primary:hover {
+            background: transparent;
+            color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .hero-btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Page sections */
+        .page-section {
+            display: none;
+            padding-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .date-filter {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .date-filter label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        select, input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-white);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .post-card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .post-date {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.875rem;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: "📖";
+            font-size: 1rem;
+        }
+
+        .verse-list {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .verse-item {
+            padding: 0.5rem 0;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-family: 'Playfair Display', serif;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .verse-item:last-child {
+            border-bottom: none;
+        }
+
+        /* About & Contact Pages */
+        .content-card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .content-card h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .content-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .value-card {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .value-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-card {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .contact-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.125rem;
+        }
+
+        .contact-card p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: var(--bg-white);
+            margin: 2% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .close {
+            color: var(--text-secondary);
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--primary);
+            background: var(--bg-light);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .dynamic-section {
+            border: 1px dashed var(--border);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            background: var(--bg-light);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-header span {
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .verse-input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-white);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .verse-display {
+            flex: 1;
+            padding: 0.5rem;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .add-verse-btn, .add-section-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .add-verse-btn:hover, .add-section-btn:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .speaker-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-white);
+            color: var(--text-primary);
+        }
+
+        .custom-section {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: #10b981;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 73px;
+                flex-direction: column;
+                background: rgba(255, 255, 255, 0.98);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: var(--shadow-lg);
+                backdrop-filter: blur(20px);
+                padding: 1rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .mobile-toggle.active span:nth-child(1) {
+                transform: rotate(-45deg) translate(-4px, 4px);
+            }
+
+            .mobile-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .mobile-toggle.active span:nth-child(3) {
+                transform: rotate(45deg) translate(-4px, -4px);
+            }
+
+            .auth-section {
+                display: none;
+            }
+
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .dashboard-controls {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .date-filter {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .post-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .post-actions {
+                justify-content: center;
+            }
+
+            .verse-input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .values-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .modal-content {
+                padding: 1rem;
+                margin: 5% auto;
+            }
+
+            .post-card {
+                padding: 1rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modern Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">UCHSC</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" class="nav-link active" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" class="nav-link" onclick="showPage('dashboard')">Dashboard</a></li>
+                <li><a href="#" class="nav-link" onclick="showPage('about')">About</a></li>
+                <li><a href="#" class="nav-link" onclick="showPage('contact')">Contact</a></li>
+            </ul>
+            <div class="auth-section">
+                <button class="btn btn-ghost">Sign Up</button>
+                <button class="btn btn-primary">Login</button>
+            </div>
+            <div class="mobile-toggle" id="mobileToggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <section id="home" class="page-section active">
+        <div class="hero-section">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>✞</span>
+                    <span>Welcome to our community</span>
+                </div>
+                <h1 class="hero-title">United with Christ</h1>
+                <p class="hero-subtitle">"For where two or three gather in my name, there am I with them."</p>
+                <p class="hero-verse">Matthew 18:20</p>
+                <div class="hero-cta">
+                    <a href="#" class="hero-btn hero-btn-primary" onclick="showPage('dashboard')">Visit Dashboard</a>
+                    <a href="#" class="hero-btn hero-btn-secondary" onclick="showPage('about')">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Page -->
+    <section id="dashboard" class="page-section">
+        <div class="container">
+            <h1 class="page-title">Church Dashboard</h1>
+            
+            <div class="dashboard-controls">
+                <div class="date-filter">
+                    <label for="dateSelect">Select Date:</label>
+                    <select id="dateSelect">
+                        <option value="latest">Latest</option>
+                        <option value="2024-01-15">January 15, 2024</option>
+                        <option value="2024-01-08">January 8, 2024</option>
+                        <option value="2024-01-01">January 1, 2024</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" onclick="openModal()">Add New Post</button>
+            </div>
+
+            <div id="postsContainer">
+                <!-- Sample post -->
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-date">January 15, 2024</div>
+                        <div class="post-actions">
+                            <button class="btn btn-primary" onclick="editPost(this)">Edit</button>
+                            <button class="btn btn-danger" onclick="deletePost(this)">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Intercessor</div>
+                        <div class="verse-list">
+                            <div style="padding: 0.5rem;">Maria Santos</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Opening</div>
+                        <div class="verse-list">
+                            <div class="verse-item">Matthew 5:6</div>
+                            <div class="verse-item">John 3:16-18</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Lessons</div>
+                        <div class="verse-list">
+                            <div class="verse-item">Romans 8:28</div>
+                            <div class="verse-item">Philippians 4:13</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Vision(Vediente)</div>
+                        <div class="verse-list">
+                            <div class="verse-item">Jeremiah 29:11</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Speaker(Parlante)</div>
+                        <div class="verse-list">
+                            <div class="verse-item">1 Corinthians 2:4-5</div>
+                            <div class="verse-item">2 Timothy 4:2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Page -->
+    <section id="about" class="page-section">
+        <div class="container">
+            <h1 class="page-title">About Our Church</h1>
+            
+            <div class="content-card">
+                <h2>Our Mission</h2>
+                <p>United with Christ through the Holy Spirit Church is a vibrant community of believers dedicated to spreading God's love and building lasting relationships centered on faith, hope, and love.</p>
+                
+                <p>Founded on the principles of Christian fellowship and spiritual growth, our church welcomes everyone seeking to deepen their relationship with Jesus Christ and find their purpose in God's plan.</p>
+                
+                <div class="values-grid">
+                    <div class="value-card">
+                        <h3>Faith</h3>
+                        <p>We believe in the transformative power of faith in Jesus Christ and the guidance of the Holy Spirit in our daily lives.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Community</h3>
+                        <p>We foster a welcoming environment where all members can grow together in love, support, and Christian fellowship.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Service</h3>
+                        <p>We are committed to serving our community and sharing God's love through acts of kindness and compassion.</p>
+                    </div>
+                </div>
+                
+                <p>Join us every Sunday for worship, fellowship, and spiritual growth as we journey together in faith.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Page -->
+    <section id="contact" class="page-section">
+        <div class="container">
+            <h1 class="page-title">Contact Us</h1>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>Sunday Service</h3>
+                    <p>Every Sunday at 9:00 AM</p>
+                    <p>Join us for worship and fellowship</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>Address</h3>
+                    <p>123 Faith Avenue</p>
+                    <p>Hope City, HC 12345</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>Phone</h3>
+                    <p>(555) 123-PRAY</p>
+                    <p>Available Monday - Friday</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>Email</h3>
+                    <p>info@uchsc.org</p>
+                    <p>We'd love to hear from you!</p>
+                </div>
+            </div>
+            
+            <div class="content-card">
+                <h2>Get In Touch</h2>
+                <p>Whether you're looking for spiritual guidance, want to join our community, or have questions about our services, we're here to help. Feel free to reach out to us through any of the contact methods above.</p>
+                
+                <p>We welcome visitors and new members with open arms. Come as you are and experience the love of Christ in our community.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>Find Us</h2>
+                <div style="border-radius: 8px; overflow: hidden; box-shadow: var(--shadow);">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.769839814324!2d121.02395631482563!3d14.56834198977534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b5f0d8e5d4a3%3A0x7c9a5b1a5a5a5a5a!2sQuezon%20City%2C%20Metro%20Manila%2C%20Philippines!5e0!3m2!1sen!2sph!4v1640995200000!5m2!1sen!2sph" 
+                        width="100%" 
+                        height="300" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <p style="text-align: center; margin-top: 1rem; color: var(--text-light); font-style: italic;">
+                    Click on the map to get directions to our church
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for adding/editing posts -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Post</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <form id="postForm">
+                <div class="form-group">
+                    <label for="postDate">Date</label>
+                    <input type="date" id="postDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="intercessor">Intercessor</label>
+                    <input type="text" id="intercessor" class="speaker-input" placeholder="Enter intercessor name">
+                </div>
+
+                <div class="form-group">
+                    <label>Lead (Opening)</label>
+                    <div id="openingSection" class="dynamic-section">
+                        <div class="section-header">
+                            <span>Opening Verses</span>
+                            <button type="button" class="add-verse-btn" onclick="addVerse('opening')">+ Add Verse</button>
+                        </div>
+                        <div id="openingVerses"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Lessons</label>
+                    <div id="lessonsSection" class="dynamic-section">
+                        <div class="section-header">
+                            <span>Lesson Verses</span>
+                            <button type="button" class="add-verse-btn" onclick="addVerse('lessons')">+ Add Verse</button>
+                        </div>
+                        <div id="lessonsVerses"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Vision(Vediente)</label>
+                    <div id="visionSection" class="dynamic-section">
+                        <div class="section-header">
+                            <span>Vision Verses</span>
+                            <button type="button" class="add-verse-btn" onclick="addVerse('vision')">+ Add Verse</button>
+                        </div>
+                        <div id="visionVerses"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Speaker(Parlante)</label>
+                    <div id="speakerSection" class="dynamic-section">
+                        <div class="section-header">
+                            <span>Speaker Verses</span>
+                            <button type="button" class="add-verse-btn" onclick="addVerse('speaker')">+ Add Verse</button>
+                        </div>
+                        <div id="speakerVerses"></div>
+                    </div>
+                </div>
+
+                <div id="customSections"></div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary add-section-btn" onclick="addCustomSection()">+ Add Additional Section</button>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: var(--primary); color: white; padding: 2rem 0; margin-top: 4rem;">
+        <div class="container" style="text-align: center;">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                <div style="font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600;">
+                    ✞ United with Christ through the Holy Spirit Church
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div style="font-size: 0.875rem; opacity: 0.8;">
+                    © 2024 UCHSC. All rights reserved.
+                </div>
+                <div style="font-size: 0.875rem; opacity: 0.8;">
+                    Developed by <span style="color: var(--gold); font-weight: 500;">Jcohannz Roz Cordoviz</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Bible books with chapters
+        const bibleBooks = {
+            'Genesis': 50, 'Exodus': 40, 'Leviticus': 27, 'Numbers': 36, 'Deuteronomy': 34,
+            'Joshua': 24, 'Judges': 21, 'Ruth': 4, '1 Samuel': 31, '2 Samuel': 24,
+            '1 Kings': 22, '2 Kings': 25, '1 Chronicles': 29, '2 Chronicles': 36, 'Ezra': 10,
+            'Nehemiah': 13, 'Esther': 10, 'Job': 42, 'Psalms': 150, 'Proverbs': 31,
+            'Ecclesiastes': 12, 'Song of Solomon': 8, 'Isaiah': 66, 'Jeremiah': 52, 'Lamentations': 5,
+            'Ezekiel': 48, 'Daniel': 12, 'Hosea': 14, 'Joel': 3, 'Amos': 9,
+            'Obadiah': 1, 'Jonah': 4, 'Micah': 7, 'Nahum': 3, 'Habakkuk': 3,
+            'Zephaniah': 3, 'Haggai': 2, 'Zechariah': 14, 'Malachi': 4, 'Matthew': 28,
+            'Mark': 16, 'Luke': 24, 'John': 21, 'Acts': 28, 'Romans': 16,
+            '1 Corinthians': 16, '2 Corinthians': 13, 'Galatians': 6, 'Ephesians': 6, 'Philippians': 4,
+            'Colossians': 4, '1 Thessalonians': 5, '2 Thessalonians': 3, '1 Timothy': 6, '2 Timothy': 4,
+            'Titus': 3, 'Philemon': 1, 'Hebrews': 13, 'James': 5, '1 Peter': 5,
+            '2 Peter': 3, '1 John': 5, '2 John': 1, '3 John': 1, 'Jude': 1, 'Revelation': 22
+        };
+
+        const maxVersesPerChapter = 150;
+        let editingPost = null;
+        let customSectionCount = 0;
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Navigation functions
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const navMenu = document.getElementById('navMenu');
+            const mobileToggle = document.getElementById('mobileToggle');
+            navMenu.classList.remove('active');
+            mobileToggle.classList.remove('active');
+        }
+
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const mobileToggle = document.getElementById('mobileToggle');
+            
+            navMenu.classList.toggle('active');
+            mobileToggle.classList.toggle('active');
+        }
+
+        // Modal functions
+        function openModal() {
+            document.getElementById('postModal').style.display = 'block';
+            document.getElementById('modalTitle').textContent = 'Add New Post';
+            document.getElementById('postForm').reset();
+            clearDynamicSections();
+            editingPost = null;
+            
+            document.getElementById('postDate').valueAsDate = new Date();
+            addVerse('opening');
+            addVerse('lessons');
+            addVerse('vision');
+            addVerse('speaker');
+        }
+
+        function closeModal() {
+            document.getElementById('postModal').style.display = 'none';
+        }
+
+        function clearDynamicSections() {
+            document.getElementById('openingVerses').innerHTML = '';
+            document.getElementById('lessonsVerses').innerHTML = '';
+            document.getElementById('visionVerses').innerHTML = '';
+            document.getElementById('speakerVerses').innerHTML = '';
+            document.getElementById('customSections').innerHTML = '';
+            customSectionCount = 0;
+        }
+
+        function addVerse(section) {
+            const container = document.getElementById(section + 'Verses');
+            const verseId = section + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            
+            const verseDiv = document.createElement('div');
+            verseDiv.className = 'verse-input-group';
+            verseDiv.innerHTML = `
+                <select onchange="updateChapters('${verseId}')" id="${verseId}_book">
+                    <option value="">Select Book</option>
+                    ${Object.keys(bibleBooks).map(book => `<option value="${book}">${book}</option>`).join('')}
+                </select>
+                <select onchange="updateVerses('${verseId}')" id="${verseId}_chapter" disabled>
+                    <option value="">Chapter</option>
+                </select>
+                <input type="number" id="${verseId}_verse1" placeholder="Verse" min="1" disabled>
+                <span>-</span>
+                <input type="number" id="${verseId}_verse2" placeholder="End" min="1" disabled>
+                <div class="verse-display" id="${verseId}_display">Select book, chapter, and verse</div>
+                <button type="button" class="btn btn-danger" onclick="removeVerse(this)">×</button>
+            `;
+            
+            container.appendChild(verseDiv);
+            
+            document.getElementById(verseId + '_verse1').addEventListener('input', () => updateVerseDisplay(verseId));
+            document.getElementById(verseId + '_verse2').addEventListener('input', () => updateVerseDisplay(verseId));
+        }
+
+        function updateChapters(verseId) {
+            const bookSelect = document.getElementById(verseId + '_book');
+            const chapterSelect = document.getElementById(verseId + '_chapter');
+            const verse1Input = document.getElementById(verseId + '_verse1');
+            const verse2Input = document.getElementById(verseId + '_verse2');
+            
+            const selectedBook = bookSelect.value;
+            
+            if (selectedBook) {
+                const chapters = bibleBooks[selectedBook];
+                chapterSelect.innerHTML = '<option value="">Chapter</option>';
+                
+                for (let i = 1; i <= chapters; i++) {
+                    chapterSelect.innerHTML += `<option value="${i}">${i}</option>`;
+                }
+                
+                chapterSelect.disabled = false;
+                verse1Input.disabled = true;
+                verse2Input.disabled = true;
+                verse1Input.value = '';
+                verse2Input.value = '';
+            } else {
+                chapterSelect.innerHTML = '<option value="">Chapter</option>';
+                chapterSelect.disabled = true;
+                verse1Input.disabled = true;
+                verse2Input.disabled = true;
+            }
+            
+            updateVerseDisplay(verseId);
+        }
+
+        function updateVerses(verseId) {
+            const chapterSelect = document.getElementById(verseId + '_chapter');
+            const verse1Input = document.getElementById(verseId + '_verse1');
+            const verse2Input = document.getElementById(verseId + '_verse2');
+            
+            if (chapterSelect.value) {
+                verse1Input.disabled = false;
+                verse2Input.disabled = false;
+                verse1Input.max = maxVersesPerChapter;
+                verse2Input.max = maxVersesPerChapter;
+            } else {
+                verse1Input.disabled = true;
+                verse2Input.disabled = true;
+                verse1Input.value = '';
+                verse2Input.value = '';
+            }
+            
+            updateVerseDisplay(verseId);
+        }
+
+        function updateVerseDisplay(verseId) {
+            const book = document.getElementById(verseId + '_book').value;
+            const chapter = document.getElementById(verseId + '_chapter').value;
+            const verse1 = document.getElementById(verseId + '_verse1').value;
+            const verse2 = document.getElementById(verseId + '_verse2').value;
+            const display = document.getElementById(verseId + '_display');
+            
+            if (book && chapter && verse1) {
+                let reference = `${book} ${chapter}:${verse1}`;
+                if (verse2 && verse2 !== verse1) {
+                    reference += `-${verse2}`;
+                }
+                display.textContent = reference;
+            } else {
+                display.textContent = 'Select book, chapter, and verse';
+            }
+        }
+
+        function removeVerse(button) {
+            button.parentElement.remove();
+        }
+
+        function addCustomSection() {
+            customSectionCount++;
+            const container = document.getElementById('customSections');
+            const sectionId = 'custom_' + customSectionCount;
+            
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'form-group';
+            sectionDiv.innerHTML = `
+                <div class="dynamic-section custom-section">
+                    <div class="section-header">
+                        <input type="text" placeholder="Section Title (e.g., Closing)" class="speaker-input" id="${sectionId}_title" style="max-width: 300px;">
+                        <div>
+                            <button type="button" class="add-verse-btn" onclick="addCustomVerse('${sectionId}')">+ Add Verse</button>
+                            <button type="button" class="btn btn-danger" onclick="removeCustomSection(this)">Remove Section</button>
+                        </div>
+                    </div>
+                    <div id="${sectionId}_verses"></div>
+                </div>
+            `;
+            
+            container.appendChild(sectionDiv);
+        }
+
+        function addCustomVerse(sectionId) {
+            const container = document.getElementById(sectionId + '_verses');
+            const verseId = sectionId + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            
+            const verseDiv = document.createElement('div');
+            verseDiv.className = 'verse-input-group';
+            verseDiv.innerHTML = `
+                <select onchange="updateChapters('${verseId}')" id="${verseId}_book">
+                    <option value="">Select Book</option>
+                    ${Object.keys(bibleBooks).map(book => `<option value="${book}">${book}</option>`).join('')}
+                </select>
+                <select onchange="updateVerses('${verseId}')" id="${verseId}_chapter" disabled>
+                    <option value="">Chapter</option>
+                </select>
+                <input type="number" id="${verseId}_verse1" placeholder="Verse" min="1" disabled>
+                <span>-</span>
+                <input type="number" id="${verseId}_verse2" placeholder="End" min="1" disabled>
+                <div class="verse-display" id="${verseId}_display">Select book, chapter, and verse</div>
+                <button type="button" class="btn btn-danger" onclick="removeVerse(this)">×</button>
+            `;
+            
+            container.appendChild(verseDiv);
+            
+            document.getElementById(verseId + '_verse1').addEventListener('input', () => updateVerseDisplay(verseId));
+            document.getElementById(verseId + '_verse2').addEventListener('input', () => updateVerseDisplay(verseId));
+        }
+
+        function removeCustomSection(button) {
+            button.closest('.form-group').remove();
+        }
+
+        function collectVerses(sectionId) {
+            const container = document.getElementById(sectionId + 'Verses');
+            const verses = [];
+            
+            container.querySelectorAll('.verse-input-group').forEach(group => {
+                const display = group.querySelector('.verse-display');
+                if (display.textContent !== 'Select book, chapter, and verse') {
+                    verses.push(display.textContent);
+                }
+            });
+            
+            return verses;
+        }
+
+        function collectCustomSections() {
+            const customSections = [];
+            const container = document.getElementById('customSections');
+            
+            container.querySelectorAll('.custom-section').forEach(section => {
+                const titleInput = section.querySelector('input[type="text"]');
+                const title = titleInput.value.trim();
+                
+                if (title) {
+                    const sectionId = titleInput.id.replace('_title', '');
+                    const verses = [];
+                    
+                    section.querySelectorAll('.verse-input-group').forEach(group => {
+                        const display = group.querySelector('.verse-display');
+                        if (display.textContent !== 'Select book, chapter, and verse') {
+                            verses.push(display.textContent);
+                        }
+                    });
+                    
+                    customSections.push({ title, verses });
+                }
+            });
+            
+            return customSections;
+        }
+
+        // Form submission
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                date: document.getElementById('postDate').value,
+                intercessor: document.getElementById('intercessor').value,
+                opening: collectVerses('opening'),
+                lessons: collectVerses('lessons'),
+                vision: collectVerses('vision'),
+                speaker: collectVerses('speaker'),
+                customSections: collectCustomSections()
+            };
+            
+            if (editingPost) {
+                updatePostDisplay(editingPost, formData);
+            } else {
+                createNewPost(formData);
+            }
+            
+            closeModal();
+        });
+
+        function createNewPost(data) {
+            const postsContainer = document.getElementById('postsContainer');
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post-card';
+            
+            postDiv.innerHTML = generatePostHTML(data);
+            postsContainer.insertBefore(postDiv, postsContainer.firstChild);
+        }
+
+        function generatePostHTML(data) {
+            const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            };
+
+            const generateSection = (title, verses) => {
+                if (!verses || verses.length === 0) return '';
+                
+                return `
+                    <div class="section">
+                        <div class="section-title">${title}</div>
+                        <div class="verse-list">
+                            ${verses.map(verse => `<div class="verse-item">${verse}</div>`).join('')}
+                        </div>
+                    </div>
+                `;
+            };
+
+            let html = `
+                <div class="post-header">
+                    <div class="post-date">${formatDate(data.date)}</div>
+                    <div class="post-actions">
+                        <button class="btn btn-primary" onclick="editPost(this)">Edit</button>
+                        <button class="btn btn-danger" onclick="deletePost(this)">Delete</button>
+                    </div>
+                </div>
+            `;
+
+            if (data.intercessor) {
+                html += `
+                    <div class="section">
+                        <div class="section-title">Intercessor</div>
+                        <div class="verse-list">
+                            <div style="padding: 0.5rem;">${data.intercessor}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += generateSection('Opening', data.opening);
+            html += generateSection('Lessons', data.lessons);
+            html += generateSection('Vision(Vediente)', data.vision);
+            html += generateSection('Speaker(Parlante)', data.speaker);
+
+            data.customSections.forEach(section => {
+                html += generateSection(section.title, section.verses);
+            });
+
+            return html;
+        }
+
+        function editPost(button) {
+            editingPost = button.closest('.post-card');
+            document.getElementById('modalTitle').textContent = 'Edit Post';
+            document.getElementById('postModal').style.display = 'block';
+            
+            clearDynamicSections();
+            addVerse('opening');
+            addVerse('lessons');
+            addVerse('vision');
+            addVerse('speaker');
+        }
+
+        function updatePostDisplay(postElement, data) {
+            postElement.innerHTML = generatePostHTML(data);
+        }
+
+        function deletePost(button) {
+            if (confirm('Are you sure you want to delete this post?')) {
+                button.closest('.post-card').remove();
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('postModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize
+        window.addEventListener('load', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('postDate').value = today;
+        });
+    </script>
+</body>
+</html>
