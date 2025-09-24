@@ -1,7 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, LogOut, User } from 'lucide-react'
+import { useAuth } from '@/contexts/AuthContext'
+import LoginForm from './LoginForm'
+import SignupForm from './SignupForm'
 
 interface NavigationProps {
   currentPage: string
@@ -11,6 +14,11 @@ interface NavigationProps {
 export default function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [showLoginForm, setShowLoginForm] = useState(false)
+  const [showSignupForm, setShowSignupForm] = useState(false)
+  const [showUserMenu, setShowUserMenu] = useState(false)
+
+  const { user, logout } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,8 +72,50 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
 
           {/* Auth Buttons - Desktop */}
           <div className="hidden md:flex items-center gap-3">
-            <button className="btn btn-secondary">Sign Up</button>
-            <button className="btn btn-primary">Login</button>
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gold/10 text-primary hover:bg-gold/20 transition-colors"
+                >
+                  <User className="h-4 w-4" />
+                  <span className="font-medium">{user.firstName}</span>
+                </button>
+
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                    <div className="px-4 py-2 text-sm text-gray-600 border-b border-gray-100">
+                      {user.email}
+                    </div>
+                    <button
+                      onClick={() => {
+                        logout()
+                        setShowUserMenu(false)
+                      }}
+                      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <button
+                  onClick={() => setShowSignupForm(true)}
+                  className="px-4 py-2 text-primary hover:text-accent font-medium transition-colors"
+                >
+                  Sign Up
+                </button>
+                <button
+                  onClick={() => setShowLoginForm(true)}
+                  className="px-6 py-2 bg-gold hover:bg-gold-600 text-white font-medium rounded-lg transition-colors"
+                >
+                  Login
+                </button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -102,13 +152,72 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                 </button>
               ))}
               <div className="flex flex-col gap-2 px-4 pt-4 border-t border-slate-200">
-                <button className="btn btn-secondary w-full">Sign Up</button>
-                <button className="btn btn-primary w-full">Login</button>
+                {user ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600">
+                      <User className="h-4 w-4" />
+                      <span>{user.firstName} {user.lastName}</span>
+                    </div>
+                    <div className="text-xs text-gray-500 px-4">{user.email}</div>
+                    <button
+                      onClick={() => {
+                        logout()
+                        setIsMobileMenuOpen(false)
+                      }}
+                      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => {
+                        setShowSignupForm(true)
+                        setIsMobileMenuOpen(false)
+                      }}
+                      className="w-full px-4 py-2 text-primary hover:text-accent font-medium border border-primary hover:border-accent rounded-lg transition-colors"
+                    >
+                      Sign Up
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowLoginForm(true)
+                        setIsMobileMenuOpen(false)
+                      }}
+                      className="w-full px-4 py-2 bg-gold hover:bg-gold-600 text-white font-medium rounded-lg transition-colors"
+                    >
+                      Login
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
         )}
       </div>
+
+      {/* Authentication Modals */}
+      {showLoginForm && (
+        <LoginForm
+          onSwitchToSignup={() => {
+            setShowLoginForm(false)
+            setShowSignupForm(true)
+          }}
+          onClose={() => setShowLoginForm(false)}
+        />
+      )}
+
+      {showSignupForm && (
+        <SignupForm
+          onSwitchToLogin={() => {
+            setShowSignupForm(false)
+            setShowLoginForm(true)
+          }}
+          onClose={() => setShowSignupForm(false)}
+        />
+      )}
     </nav>
   )
 }
