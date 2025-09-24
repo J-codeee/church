@@ -19,10 +19,10 @@ CREATE TABLE daily_content (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     date DATE NOT NULL UNIQUE, -- Only one entry per date
     intercessor VARCHAR(200),
-    opening TEXT[], -- Array of verse references
-    lessons TEXT[], -- Array of verse references
-    vision TEXT[], -- Array of verse references
-    speaker TEXT[], -- Array of verse references
+    opening JSONB DEFAULT '[]'::jsonb, -- Array of verse references stored as JSON
+    lessons JSONB DEFAULT '[]'::jsonb, -- Array of verse references stored as JSON
+    vision JSONB DEFAULT '[]'::jsonb, -- Array of verse references stored as JSON
+    speaker JSONB DEFAULT '[]'::jsonb, -- Array of verse references stored as JSON
     custom_sections JSONB DEFAULT '[]'::jsonb, -- Array of {title: string, verses: string[]}
     notes TEXT, -- Can be null
     created_by UUID REFERENCES users(id),

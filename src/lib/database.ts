@@ -92,11 +92,11 @@ export async function getDailyContent(date: string): Promise<DailyContent | null
     const row = result.rows[0]
     return {
       ...row,
-      opening: row.opening || [],
-      lessons: row.lessons || [],
-      vision: row.vision || [],
-      speaker: row.speaker || [],
-      customSections: row.customSections || []
+      opening: Array.isArray(row.opening) ? row.opening : (row.opening ? JSON.parse(row.opening) : []),
+      lessons: Array.isArray(row.lessons) ? row.lessons : (row.lessons ? JSON.parse(row.lessons) : []),
+      vision: Array.isArray(row.vision) ? row.vision : (row.vision ? JSON.parse(row.vision) : []),
+      speaker: Array.isArray(row.speaker) ? row.speaker : (row.speaker ? JSON.parse(row.speaker) : []),
+      customSections: Array.isArray(row.customSections) ? row.customSections : (row.customSections ? JSON.parse(row.customSections) : [])
     } as DailyContent
   } catch (error) {
     console.error('Error getting daily content:', error)
@@ -132,10 +132,10 @@ export async function createOrUpdateDailyContent(
     const updateResult = await sql`
       UPDATE daily_content
       SET intercessor = ${intercessor},
-          opening = ${opening},
-          lessons = ${lessons},
-          vision = ${vision},
-          speaker = ${speaker},
+          opening = ${JSON.stringify(opening)},
+          lessons = ${JSON.stringify(lessons)},
+          vision = ${JSON.stringify(vision)},
+          speaker = ${JSON.stringify(speaker)},
           custom_sections = ${JSON.stringify(customSections)},
           notes = ${notes},
           updated_at = CURRENT_TIMESTAMP
@@ -150,11 +150,11 @@ export async function createOrUpdateDailyContent(
       const row = updateResult.rows[0]
       return {
         ...row,
-        opening: row.opening || [],
-        lessons: row.lessons || [],
-        vision: row.vision || [],
-        speaker: row.speaker || [],
-        customSections: row.customSections || []
+        opening: Array.isArray(row.opening) ? row.opening : (row.opening ? JSON.parse(row.opening) : []),
+        lessons: Array.isArray(row.lessons) ? row.lessons : (row.lessons ? JSON.parse(row.lessons) : []),
+        vision: Array.isArray(row.vision) ? row.vision : (row.vision ? JSON.parse(row.vision) : []),
+        speaker: Array.isArray(row.speaker) ? row.speaker : (row.speaker ? JSON.parse(row.speaker) : []),
+        customSections: Array.isArray(row.customSections) ? row.customSections : (row.customSections ? JSON.parse(row.customSections) : [])
       } as DailyContent
     }
 
@@ -165,7 +165,8 @@ export async function createOrUpdateDailyContent(
         custom_sections, notes, created_by
       )
       VALUES (
-        ${date}, ${intercessor}, ${opening}, ${lessons}, ${vision}, ${speaker},
+        ${date}, ${intercessor}, ${JSON.stringify(opening)}, ${JSON.stringify(lessons)},
+        ${JSON.stringify(vision)}, ${JSON.stringify(speaker)},
         ${JSON.stringify(customSections)}, ${notes}, ${userId}
       )
       RETURNING id, date, intercessor, opening, lessons, vision, speaker,
@@ -177,11 +178,11 @@ export async function createOrUpdateDailyContent(
     const row = insertResult.rows[0]
     return {
       ...row,
-      opening: row.opening || [],
-      lessons: row.lessons || [],
-      vision: row.vision || [],
-      speaker: row.speaker || [],
-      customSections: row.customSections || []
+      opening: Array.isArray(row.opening) ? row.opening : (row.opening ? JSON.parse(row.opening) : []),
+      lessons: Array.isArray(row.lessons) ? row.lessons : (row.lessons ? JSON.parse(row.lessons) : []),
+      vision: Array.isArray(row.vision) ? row.vision : (row.vision ? JSON.parse(row.vision) : []),
+      speaker: Array.isArray(row.speaker) ? row.speaker : (row.speaker ? JSON.parse(row.speaker) : []),
+      customSections: Array.isArray(row.customSections) ? row.customSections : (row.customSections ? JSON.parse(row.customSections) : [])
     } as DailyContent
   } catch (error) {
     console.error('Error creating/updating daily content:', error)
@@ -203,11 +204,11 @@ export async function getRecentDailyContent(limit: number = 7): Promise<DailyCon
 
     return result.rows.map(row => ({
       ...row,
-      opening: row.opening || [],
-      lessons: row.lessons || [],
-      vision: row.vision || [],
-      speaker: row.speaker || [],
-      customSections: row.customSections || []
+      opening: Array.isArray(row.opening) ? row.opening : (row.opening ? JSON.parse(row.opening) : []),
+      lessons: Array.isArray(row.lessons) ? row.lessons : (row.lessons ? JSON.parse(row.lessons) : []),
+      vision: Array.isArray(row.vision) ? row.vision : (row.vision ? JSON.parse(row.vision) : []),
+      speaker: Array.isArray(row.speaker) ? row.speaker : (row.speaker ? JSON.parse(row.speaker) : []),
+      customSections: Array.isArray(row.customSections) ? row.customSections : (row.customSections ? JSON.parse(row.customSections) : [])
     })) as DailyContent[]
   } catch (error) {
     console.error('Error getting recent daily content:', error)
