@@ -124,7 +124,8 @@ export default function VerseSelector({ value, onChange, onRemove }: VerseSelect
         <button
           type="button"
           onClick={onRemove}
-          className="btn btn-danger p-2 flex-shrink-0"
+          className="p-2 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 border border-red-200 hover:border-red-300 rounded-md transition-all duration-200 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
+          title="Remove this verse"
         >
           <Trash2 className="w-4 h-4" />
         </button>

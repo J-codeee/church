@@ -107,13 +107,13 @@ export async function getDailyContent(date: string): Promise<DailyContent | null
 export async function createOrUpdateDailyContent(
   date: string,
   content: {
-    intercessor?: string
+    intercessor?: string | null
     opening: string[]
     lessons: string[]
     vision: string[]
     speaker: string[]
     customSections: Array<{title: string, verses: string[]}>
-    notes?: string
+    notes?: string | null
   },
   userId: string
 ): Promise<DailyContent> {
@@ -128,64 +128,53 @@ export async function createOrUpdateDailyContent(
   } = content
 
   try {
-    // Try to update first, then insert if not exists
-    const updateResult = await sql`
-      UPDATE daily_content
-      SET intercessor = ${intercessor},
-          opening = ${JSON.stringify(opening)},
-          lessons = ${JSON.stringify(lessons)},
-          vision = ${JSON.stringify(vision)},
-          speaker = ${JSON.stringify(speaker)},
-          custom_sections = ${JSON.stringify(customSections)},
-          notes = ${notes},
-          updated_at = CURRENT_TIMESTAMP
-      WHERE date = ${date}
-      RETURNING id, date, intercessor, opening, lessons, vision, speaker,
-                custom_sections as "customSections", notes,
-                created_by as "createdBy", created_at as "createdAt",
-                updated_at as "updatedAt"
-    `
-
-    if (updateResult.rows.length > 0) {
-      const row = updateResult.rows[0]
-      return {
-        ...row,
-        opening: Array.isArray(row.opening) ? row.opening : (row.opening ? JSON.parse(row.opening) : []),
-        lessons: Array.isArray(row.lessons) ? row.lessons : (row.lessons ? JSON.parse(row.lessons) : []),
-        vision: Array.isArray(row.vision) ? row.vision : (row.vision ? JSON.parse(row.vision) : []),
-        speaker: Array.isArray(row.speaker) ? row.speaker : (row.speaker ? JSON.parse(row.speaker) : []),
-        customSections: Array.isArray(row.customSections) ? row.customSections : (row.customSections ? JSON.parse(row.customSections) : [])
-      } as DailyContent
-    }
-
-    // If update didn't affect any rows, insert new record
-    const insertResult = await sql`
+    // Use PostgreSQL's UPSERT (INSERT ... ON CONFLICT) for atomic operation
+    const result = await sql`
       INSERT INTO daily_content (
         date, intercessor, opening, lessons, vision, speaker,
         custom_sections, notes, created_by
       )
       VALUES (
-        ${date}, ${intercessor}, ${JSON.stringify(opening)}, ${JSON.stringify(lessons)},
-        ${JSON.stringify(vision)}, ${JSON.stringify(speaker)},
-        ${JSON.stringify(customSections)}, ${notes}, ${userId}
+        ${date}, ${intercessor}, ${JSON.stringify(opening)}::jsonb,
+        ${JSON.stringify(lessons)}::jsonb, ${JSON.stringify(vision)}::jsonb,
+        ${JSON.stringify(speaker)}::jsonb, ${JSON.stringify(customSections)}::jsonb,
+        ${notes}, ${userId}
       )
+      ON CONFLICT (date)
+      DO UPDATE SET
+        intercessor = EXCLUDED.intercessor,
+        opening = EXCLUDED.opening,
+        lessons = EXCLUDED.lessons,
+        vision = EXCLUDED.vision,
+        speaker = EXCLUDED.speaker,
+        custom_sections = EXCLUDED.custom_sections,
+        notes = EXCLUDED.notes,
+        updated_at = CURRENT_TIMESTAMP
       RETURNING id, date, intercessor, opening, lessons, vision, speaker,
                 custom_sections as "customSections", notes,
                 created_by as "createdBy", created_at as "createdAt",
                 updated_at as "updatedAt"
     `
 
-    const row = insertResult.rows[0]
+    const row = result.rows[0]
     return {
       ...row,
-      opening: Array.isArray(row.opening) ? row.opening : (row.opening ? JSON.parse(row.opening) : []),
-      lessons: Array.isArray(row.lessons) ? row.lessons : (row.lessons ? JSON.parse(row.lessons) : []),
-      vision: Array.isArray(row.vision) ? row.vision : (row.vision ? JSON.parse(row.vision) : []),
-      speaker: Array.isArray(row.speaker) ? row.speaker : (row.speaker ? JSON.parse(row.speaker) : []),
-      customSections: Array.isArray(row.customSections) ? row.customSections : (row.customSections ? JSON.parse(row.customSections) : [])
+      // Since we're using JSONB, these should already be parsed
+      opening: Array.isArray(row.opening) ? row.opening : [],
+      lessons: Array.isArray(row.lessons) ? row.lessons : [],
+      vision: Array.isArray(row.vision) ? row.vision : [],
+      speaker: Array.isArray(row.speaker) ? row.speaker : [],
+      customSections: Array.isArray(row.customSections) ? row.customSections : []
     } as DailyContent
   } catch (error) {
     console.error('Error creating/updating daily content:', error)
+    console.error('Error details:', {
+      date,
+      content,
+      userId,
+      errorMessage: error.message,
+      errorStack: error.stack
+    })
     throw error
   }
 }

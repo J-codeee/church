@@ -121,7 +121,7 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
           <button
             type="button"
             onClick={() => addVerse(sectionKey as string)}
-            className="btn btn-success text-xs flex items-center gap-1"
+            className="px-3 py-1.5 bg-primary/10 text-primary text-sm font-medium rounded-md hover:bg-primary/20 transition-colors flex items-center gap-1 border border-primary/20 hover:border-primary/30"
           >
             <Plus className="w-3 h-3" />
             Add Verse
@@ -212,7 +212,7 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
                       <button
                         type="button"
                         onClick={() => updateCustomSection(index, section.title, [...section.verses, ''])}
-                        className="btn btn-success text-xs flex items-center gap-1"
+                        className="px-3 py-1.5 bg-primary/10 text-primary text-sm font-medium rounded-md hover:bg-primary/20 transition-colors flex items-center gap-1 border border-primary/20 hover:border-primary/30"
                       >
                         <Plus className="w-3 h-3" />
                         Add Verse
@@ -220,7 +220,7 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
                       <button
                         type="button"
                         onClick={() => removeCustomSection(index)}
-                        className="btn btn-danger text-xs"
+                        className="px-3 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-md hover:bg-red-100 transition-colors border border-red-200 hover:border-red-300"
                       >
                         Remove Section
                       </button>
@@ -252,7 +252,7 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
               <button
                 type="button"
                 onClick={addCustomSection}
-                className="btn btn-secondary flex items-center gap-2"
+                className="w-full px-4 py-3 border-2 border-dashed border-primary/30 text-primary font-medium rounded-lg hover:bg-primary/5 hover:border-primary/50 transition-all duration-200 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2"
               >
                 <Plus className="w-4 h-4" />
                 Add Additional Section
@@ -278,12 +278,19 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
             </div>
 
             {/* Submit Buttons */}
-            <div className="flex justify-end gap-3 pt-6 border-t border-slate-200">
-              <button type="button" onClick={onClose} className="btn btn-secondary">
+            <div className="flex justify-end gap-3 pt-6 border-t border-slate-200 bg-white sticky bottom-0 -mx-6 px-6 pb-6">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 py-3 border-2 border-slate-300 text-slate-700 font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+              >
                 Cancel
               </button>
-              <button type="submit" className="btn btn-success">
-                Submit
+              <button
+                type="submit"
+                className="px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transition-all duration-200 shadow-md hover:shadow-lg"
+              >
+                {post ? 'Update Post' : 'Create Post'}
               </button>
             </div>
           </div>
