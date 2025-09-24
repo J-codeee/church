@@ -172,8 +172,8 @@ export async function createOrUpdateDailyContent(
       date,
       content,
       userId,
-      errorMessage: error.message,
-      errorStack: error.stack
+      errorMessage: error instanceof Error ? error.message : 'Unknown error',
+      errorStack: error instanceof Error ? error.stack : undefined
     })
     throw error
   }

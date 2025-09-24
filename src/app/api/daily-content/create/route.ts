@@ -44,7 +44,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error creating/updating daily content:', error)
     return NextResponse.json(
-      { error: 'Failed to create/update daily content', details: error.message },
+      {
+        error: 'Failed to create/update daily content',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     )
   }
