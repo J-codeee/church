@@ -115,7 +115,7 @@ export async function createOrUpdateDailyContent(
     customSections: Array<{title: string, verses: string[]}>
     notes?: string | null
   },
-  userId: string
+  userId: string | null
 ): Promise<DailyContent> {
   const {
     intercessor,

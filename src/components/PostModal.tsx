@@ -198,7 +198,7 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
 
             {/* Custom Sections */}
             {formData.customSections.map((section, index) => (
-              <div key={index} className="form-group">
+              <div key={`custom-section-${index}`} className="form-group">
                 <div className="border-2 border-dashed border-green-300 rounded-lg p-4 bg-green-50">
                   <div className="mb-4">
                     <label className="block text-sm font-medium text-primary mb-2">
@@ -206,20 +206,39 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
                     </label>
                     <input
                       type="text"
-                      value={section.title}
+                      value={section.title || ''}
                       onChange={(e) => {
+                        const newTitle = e.target.value
+                        setFormData(prev => ({
+                          ...prev,
+                          customSections: prev.customSections.map((sec, i) =>
+                            i === index ? { ...sec, title: newTitle } : sec
+                          )
+                        }))
+                      }}
+                      onKeyDown={(e) => {
                         e.stopPropagation()
-                        updateCustomSection(index, e.target.value, section.verses)
+                      }}
+                      onFocus={(e) => {
+                        e.target.select()
                       }}
                       placeholder="Enter section title (e.g., Closing, Special Prayer)"
                       className="input w-full"
                       autoComplete="off"
+                      spellCheck="false"
                     />
                   </div>
                   <div className="flex justify-end gap-2 mb-4">
                     <button
                       type="button"
-                      onClick={() => updateCustomSection(index, section.title, [...section.verses, ''])}
+                      onClick={() => {
+                        setFormData(prev => ({
+                          ...prev,
+                          customSections: prev.customSections.map((sec, i) =>
+                            i === index ? { ...sec, verses: [...sec.verses, ''] } : sec
+                          )
+                        }))
+                      }}
                       className="px-3 py-1.5 bg-primary/10 text-primary text-sm font-medium rounded-md hover:bg-primary/20 transition-colors flex items-center gap-1 border border-primary/20 hover:border-primary/30"
                     >
                       <Plus className="w-3 h-3" />
@@ -239,13 +258,26 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
                         key={verseIndex}
                         value={verse}
                         onChange={(newVerse) => {
-                          const newVerses = [...section.verses]
-                          newVerses[verseIndex] = newVerse
-                          updateCustomSection(index, section.title, newVerses)
+                          setFormData(prev => ({
+                            ...prev,
+                            customSections: prev.customSections.map((sec, i) =>
+                              i === index ? {
+                                ...sec,
+                                verses: sec.verses.map((v, vi) => vi === verseIndex ? newVerse : v)
+                              } : sec
+                            )
+                          }))
                         }}
                         onRemove={section.verses.length > 1 ? () => {
-                          const newVerses = section.verses.filter((_, i) => i !== verseIndex)
-                          updateCustomSection(index, section.title, newVerses)
+                          setFormData(prev => ({
+                            ...prev,
+                            customSections: prev.customSections.map((sec, i) =>
+                              i === index ? {
+                                ...sec,
+                                verses: sec.verses.filter((_, vi) => vi !== verseIndex)
+                              } : sec
+                            )
+                          }))
                         } : undefined}
                       />
                     ))}

@@ -23,9 +23,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // For now, we'll use a dummy user ID. In a real app, you'd get this from the session
-    const userId = '00000000-0000-0000-0000-000000000000'
-
+    // For now, we'll use null for created_by since we don't have user authentication
+    // In a real app, you'd get the user ID from the session
     const result = await createOrUpdateDailyContent(
       date,
       {
@@ -37,7 +36,7 @@ export async function POST(request: NextRequest) {
         customSections: customSections || [],
         notes: notes || null
       },
-      userId
+      null // Pass null instead of a dummy UUID
     )
 
     return NextResponse.json(result)
