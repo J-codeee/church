@@ -20,7 +20,8 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
     lessons: [''],
     vision: [''],
     speaker: [''],
-    customSections: [] as CustomSection[]
+    customSections: [] as CustomSection[],
+    notes: ''
   })
 
   useEffect(() => {
@@ -32,7 +33,8 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
         lessons: post.lessons.length > 0 ? post.lessons : [''],
         vision: post.vision.length > 0 ? post.vision : [''],
         speaker: post.speaker.length > 0 ? post.speaker : [''],
-        customSections: post.customSections
+        customSections: post.customSections,
+        notes: post.notes || ''
       })
     }
   }, [post])
@@ -255,6 +257,24 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
                 <Plus className="w-4 h-4" />
                 Add Additional Section
               </button>
+            </div>
+
+            {/* Notes */}
+            <div className="form-group">
+              <label htmlFor="notes" className="block text-sm font-medium text-primary mb-2">
+                Notes (Optional)
+              </label>
+              <textarea
+                id="notes"
+                value={formData.notes}
+                onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
+                placeholder="Add any additional notes, reminders, or special instructions..."
+                className="input min-h-24 resize-y"
+                rows={3}
+              />
+              <p className="text-xs text-slate-500 mt-1">
+                Use this field for any additional information that doesn&apos;t fit in the sections above.
+              </p>
             </div>
 
             {/* Submit Buttons */}

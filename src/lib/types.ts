@@ -19,4 +19,5 @@ export interface Post {
   vision: string[]
   speaker: string[]
   customSections: CustomSection[]
+  notes?: string
 }

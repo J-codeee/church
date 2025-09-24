@@ -1,8 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Menu, X, LogOut, User } from 'lucide-react'
+import { Menu, X, LogOut, User, Home, LayoutDashboard, Info, Mail } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '@/contexts/AuthContext'
+import { ThemeToggle } from './ThemeToggle'
 import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
 
@@ -24,19 +26,17 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      setIsScrolled(window.scrollY > 20)
     }
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Handle logo clicks for admin access
   useEffect(() => {
     if (logoClickCount >= 3) {
       setShowAdminAccess(true)
       setLogoClickCount(0)
-      // Auto-hide after 10 seconds
       const timer = setTimeout(() => setShowAdminAccess(false), 10000)
       return () => clearTimeout(timer)
     }
@@ -45,7 +45,6 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
   const handleLogoClick = () => {
     if (!user) {
       setLogoClickCount(prev => prev + 1)
-      // Reset click count after 2 seconds if not completed
       setTimeout(() => setLogoClickCount(0), 2000)
     } else {
       onPageChange('home')
@@ -53,197 +52,323 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
   }
 
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'dashboard', label: 'Dashboard' },
-    { id: 'about', label: 'About' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'home', label: 'Home', icon: Home },
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'about', label: 'About', icon: Info },
+    { id: 'contact', label: 'Contact', icon: Mail },
   ]
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled
-        ? 'bg-white/98 backdrop-blur-xl shadow-lg border-b border-slate-200'
-        : 'bg-white/95 backdrop-blur-xl border-b border-slate-200'
-    }`}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo */}
-          <button
-            onClick={handleLogoClick}
-            className="flex items-center gap-2 text-xl font-serif font-semibold text-primary hover:text-accent transition-colors"
-            title={!user ? "Triple-click for admin access" : "Home"}
-          >
-            <span className="text-2xl text-gold">✞</span>
-            UCHSC
-          </button>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => onPageChange(item.id)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  currentPage === item.id
-                    ? 'text-accent bg-accent/5'
-                    : 'text-slate-600 hover:text-accent hover:bg-accent/5'
-                }`}
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled
+            ? 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl shadow-glass border-b border-white/20 dark:border-neutral-700/30'
+            : 'bg-white/60 dark:bg-neutral-900/60 backdrop-blur-sm border-b border-white/10 dark:border-neutral-700/20'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <motion.button
+              onClick={handleLogoClick}
+              className="group flex items-center gap-3 text-xl font-serif font-bold text-primary-900 dark:text-white hover:text-accent-600 dark:hover:text-accent-400 transition-all duration-300"
+              title={!user ? "Triple-click for admin access" : "Home"}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <motion.div
+                animate={{ rotate: logoClickCount * 60 }}
+                className="relative"
               >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Admin Access - Desktop */}
-          <div className="hidden md:flex items-center gap-3">
-            {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gold/10 text-primary hover:bg-gold/20 transition-colors"
-                >
-                  <User className="h-4 w-4" />
-                  <span className="font-medium">{user.firstName}</span>
-                </button>
-
-                {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                    <div className="px-4 py-2 text-sm text-gray-600 border-b border-gray-100">
-                      {user.email}
-                    </div>
-                    <button
-                      onClick={() => {
-                        logout()
-                        setShowUserMenu(false)
-                      }}
-                      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      Sign Out
-                    </button>
-                  </div>
+                <span className="text-2xl text-gold-500 group-hover:text-gold-400 transition-colors duration-300 drop-shadow-sm">
+                  ✞
+                </span>
+                {logoClickCount > 0 && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full animate-pulse"
+                  />
                 )}
-              </div>
-            ) : showAdminAccess ? (
-              <div className="flex items-center gap-3 animate-fade-in">
-                <button
-                  onClick={() => setShowLoginForm(true)}
-                  className="px-4 py-2 bg-gold hover:bg-gold-600 text-white font-medium rounded-lg transition-colors"
-                >
-                  Admin Login
-                </button>
-                <button
-                  onClick={() => setShowAdminAccess(false)}
-                  className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
-                  title="Close"
-                >
-                  ×
-                </button>
-              </div>
-            ) : null}
-          </div>
+              </motion.div>
+              <span className="hidden sm:block bg-gradient-to-r from-primary-900 to-accent-600 dark:from-white dark:to-accent-300 bg-clip-text text-transparent">
+                UCHSC
+              </span>
+            </motion.button>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-accent/5 transition-colors"
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6 text-slate-600" />
-            ) : (
-              <Menu className="w-6 h-6 text-slate-600" />
-            )}
-          </button>
-        </div>
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-1">
+              {navItems.map((item, index) => {
+                const Icon = item.icon
+                return (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => onPageChange(item.id)}
+                    className={`relative group px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 ${
+                      currentPage === item.id
+                        ? 'text-accent-600 dark:text-accent-400 bg-glass-gradient shadow-glass-inset backdrop-blur-sm'
+                        : 'text-neutral-600 dark:text-neutral-300 hover:text-accent-600 dark:hover:text-accent-400 hover:bg-glass-gradient hover:shadow-glass-inset hover:backdrop-blur-sm'
+                    }`}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {item.label}
+                    {currentPage === item.id && (
+                      <motion.div
+                        layoutId="activeTab"
+                        className="absolute inset-0 bg-accent-500/10 dark:bg-accent-400/10 rounded-xl border border-accent-500/20 dark:border-accent-400/20"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                  </motion.button>
+                )
+              })}
+            </div>
 
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-slate-200 bg-white/98 backdrop-blur-xl">
-            <div className="flex flex-col space-y-2">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    onPageChange(item.id)
-                    setIsMobileMenuOpen(false)
-                  }}
-                  className={`text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
-                    currentPage === item.id
-                      ? 'text-accent bg-accent/5'
-                      : 'text-slate-600 hover:text-accent hover:bg-accent/5'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-              <div className="flex flex-col gap-2 px-4 pt-4 border-t border-slate-200">
-                {user ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600">
-                      <User className="h-4 w-4" />
-                      <span>{user.firstName} {user.lastName}</span>
-                    </div>
-                    <div className="text-xs text-gray-500 px-4">{user.email}</div>
-                    <button
-                      onClick={() => {
-                        logout()
-                        setIsMobileMenuOpen(false)
-                      }}
-                      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            {/* Right Side Controls */}
+            <div className="flex items-center gap-3">
+              {/* Theme Toggle */}
+              <ThemeToggle />
+
+              {/* User Menu / Admin Access */}
+              <div className="hidden lg:flex items-center gap-3">
+                <AnimatePresence>
+                  {user ? (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="relative"
                     >
-                      <LogOut className="h-4 w-4" />
-                      Sign Out
-                    </button>
-                  </div>
-                ) : showAdminAccess ? (
-                  <div className="space-y-2">
-                    <button
-                      onClick={() => {
-                        setShowLoginForm(true)
-                        setIsMobileMenuOpen(false)
-                      }}
-                      className="w-full px-4 py-2 bg-gold hover:bg-gold-600 text-white font-medium rounded-lg transition-colors"
+                      <motion.button
+                        onClick={() => setShowUserMenu(!showUserMenu)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-gold-500/10 to-gold-600/10 dark:from-gold-400/10 dark:to-gold-500/10 text-primary-900 dark:text-white border border-gold-500/20 hover:border-gold-500/40 hover:shadow-glow-sm transition-all duration-300 backdrop-blur-sm"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <User className="w-4 h-4" />
+                        <span className="font-medium">{user.firstName}</span>
+                      </motion.button>
+
+                      <AnimatePresence>
+                        {showUserMenu && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute right-0 mt-2 w-56 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl rounded-2xl shadow-glass border border-white/20 dark:border-neutral-700/30 py-2 z-50"
+                            onMouseLeave={() => setShowUserMenu(false)}
+                          >
+                            <div className="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400 border-b border-white/10 dark:border-neutral-700/30">
+                              <div className="font-medium text-neutral-900 dark:text-white">
+                                {user.firstName} {user.lastName}
+                              </div>
+                              <div className="truncate">{user.email}</div>
+                            </div>
+                            <motion.button
+                              onClick={() => {
+                                logout()
+                                setShowUserMenu(false)
+                              }}
+                              className="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                              whileHover={{ x: 4 }}
+                            >
+                              <LogOut className="w-4 h-4" />
+                              Sign Out
+                            </motion.button>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  ) : showAdminAccess ? (
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      className="flex items-center gap-3"
                     >
-                      Admin Login
-                    </button>
-                    <button
-                      onClick={() => setShowAdminAccess(false)}
-                      className="w-full px-4 py-2 text-gray-500 hover:text-gray-700 font-medium rounded-lg transition-colors"
-                    >
-                      Close
-                    </button>
-                  </div>
-                ) : (
-                  <div className="text-center py-4 text-sm text-gray-500 italic">
-                    Triple-click the logo for admin access
-                  </div>
-                )}
+                      <motion.button
+                        onClick={() => setShowLoginForm(true)}
+                        className="px-4 py-2 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white font-medium rounded-xl shadow-lg hover:shadow-glow-md transition-all duration-300"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Admin Login
+                      </motion.button>
+                      <motion.button
+                        onClick={() => setShowAdminAccess(false)}
+                        className="p-2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors rounded-lg hover:bg-white/10 dark:hover:bg-neutral-800/50"
+                        whileHover={{ rotate: 90 }}
+                        title="Close"
+                      >
+                        <X className="w-4 h-4" />
+                      </motion.button>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
               </div>
+
+              {/* Mobile Menu Toggle */}
+              <motion.button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="lg:hidden p-2 rounded-xl hover:bg-white/10 dark:hover:bg-neutral-800/50 transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={isMobileMenuOpen ? 'close' : 'menu'}
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {isMobileMenuOpen ? (
+                      <X className="w-6 h-6 text-neutral-600 dark:text-neutral-300" />
+                    ) : (
+                      <Menu className="w-6 h-6 text-neutral-600 dark:text-neutral-300" />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </motion.button>
             </div>
           </div>
-        )}
-      </div>
+
+          {/* Mobile Navigation */}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="lg:hidden overflow-hidden border-t border-white/10 dark:border-neutral-700/30"
+              >
+                <div className="py-4 space-y-2">
+                  {navItems.map((item, index) => {
+                    const Icon = item.icon
+                    return (
+                      <motion.button
+                        key={item.id}
+                        onClick={() => {
+                          onPageChange(item.id)
+                          setIsMobileMenuOpen(false)
+                        }}
+                        className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
+                          currentPage === item.id
+                            ? 'text-accent-600 dark:text-accent-400 bg-glass-gradient shadow-glass-inset'
+                            : 'text-neutral-600 dark:text-neutral-300 hover:text-accent-600 dark:hover:text-accent-400 hover:bg-glass-gradient hover:shadow-glass-inset'
+                        }`}
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: index * 0.1 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Icon className="w-4 h-4" />
+                        {item.label}
+                      </motion.button>
+                    )
+                  })}
+
+                  {/* Mobile User/Admin Section */}
+                  <div className="pt-4 border-t border-white/10 dark:border-neutral-700/30">
+                    {user ? (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="space-y-3"
+                      >
+                        <div className="flex items-center gap-3 px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400">
+                          <User className="w-4 h-4" />
+                          <div>
+                            <div className="font-medium text-neutral-900 dark:text-white">
+                              {user.firstName} {user.lastName}
+                            </div>
+                            <div className="text-xs">{user.email}</div>
+                          </div>
+                        </div>
+                        <motion.button
+                          onClick={() => {
+                            logout()
+                            setIsMobileMenuOpen(false)
+                          }}
+                          className="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <LogOut className="w-4 h-4" />
+                          Sign Out
+                        </motion.button>
+                      </motion.div>
+                    ) : showAdminAccess ? (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="space-y-2"
+                      >
+                        <motion.button
+                          onClick={() => {
+                            setShowLoginForm(true)
+                            setIsMobileMenuOpen(false)
+                          }}
+                          className="w-full px-4 py-3 bg-gradient-to-r from-gold-500 to-gold-600 text-white font-medium rounded-xl transition-colors"
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          Admin Login
+                        </motion.button>
+                        <motion.button
+                          onClick={() => setShowAdminAccess(false)}
+                          className="w-full px-4 py-3 text-neutral-500 dark:text-neutral-400 font-medium rounded-xl transition-colors"
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          Close
+                        </motion.button>
+                      </motion.div>
+                    ) : (
+                      <div className="text-center py-4 text-sm text-neutral-500 dark:text-neutral-400 italic">
+                        Triple-click the logo for admin access
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.nav>
 
       {/* Authentication Modals */}
-      {showLoginForm && (
-        <LoginForm
-          onSwitchToSignup={() => {
-            setShowLoginForm(false)
-            setShowSignupForm(true)
-          }}
-          onClose={() => setShowLoginForm(false)}
-        />
-      )}
+      <AnimatePresence>
+        {showLoginForm && (
+          <LoginForm
+            onSwitchToSignup={() => {
+              setShowLoginForm(false)
+              setShowSignupForm(true)
+            }}
+            onClose={() => setShowLoginForm(false)}
+          />
+        )}
+      </AnimatePresence>
 
-      {showSignupForm && (
-        <SignupForm
-          onSwitchToLogin={() => {
-            setShowSignupForm(false)
-            setShowLoginForm(true)
-          }}
-          onClose={() => setShowSignupForm(false)}
-        />
-      )}
-    </nav>
+      <AnimatePresence>
+        {showSignupForm && (
+          <SignupForm
+            onSwitchToLogin={() => {
+              setShowSignupForm(false)
+              setShowLoginForm(true)
+            }}
+            onClose={() => setShowSignupForm(false)}
+          />
+        )}
+      </AnimatePresence>
+    </>
   )
 }

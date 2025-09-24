@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Plus, Edit, Trash2 } from 'lucide-react'
 import { Post } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
@@ -10,10 +10,56 @@ import PostModal from './PostModal'
 export default function Dashboard() {
   const { user } = useAuth()
   const [posts, setPosts] = useState<Post[]>([])
+  const [loading, setLoading] = useState(true)
 
   const [selectedDate, setSelectedDate] = useState('latest')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingPost, setEditingPost] = useState<Post | null>(null)
+
+  // Fetch posts from database on component mount
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('/api/daily-content/all')
+        if (response.ok) {
+          const data = await response.json()
+          setPosts(data)
+        } else {
+          console.error('Failed to fetch posts')
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPosts()
+  }, [])
+
+  // Get unique dates from posts and sort them (latest first)
+  const availableDates = useMemo(() => {
+    const uniqueDates = Array.from(new Set(posts.map(post => post.date)))
+    return uniqueDates.sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
+  }, [posts])
+
+  // Get the latest date for default selection
+  const latestDate = availableDates[0] || null
+
+  // Update selectedDate when posts change and we have a latest date
+  useEffect(() => {
+    if (latestDate && selectedDate === 'latest') {
+      // Keep it as 'latest' for display purposes
+    }
+  }, [latestDate, selectedDate])
+
+  // Filter posts based on selected date
+  const filteredPosts = useMemo(() => {
+    if (selectedDate === 'latest') {
+      return latestDate ? posts.filter(post => post.date === latestDate) : []
+    }
+    return posts.filter(post => post.date === selectedDate)
+  }, [posts, selectedDate, latestDate])
 
   const handleAddPost = () => {
     setEditingPost(null)
@@ -25,28 +71,59 @@ export default function Dashboard() {
     setIsModalOpen(true)
   }
 
-  const handleDeletePost = (postId: string) => {
+  const handleDeletePost = async (postId: string) => {
     if (window.confirm('Are you sure you want to delete this post?')) {
-      setPosts(posts.filter(p => p.id !== postId))
+      try {
+        const response = await fetch(`/api/daily-content/delete?id=${postId}`, {
+          method: 'DELETE',
+        })
+
+        if (response.ok) {
+          // Refresh posts from database
+          const postsResponse = await fetch('/api/daily-content/all')
+          if (postsResponse.ok) {
+            const updatedPosts = await postsResponse.json()
+            setPosts(updatedPosts)
+          }
+        } else {
+          console.error('Failed to delete post')
+          alert('Failed to delete post. Please try again.')
+        }
+      } catch (error) {
+        console.error('Error deleting post:', error)
+        alert('Error deleting post. Please try again.')
+      }
     }
   }
 
-  const handleSavePost = (postData: Omit<Post, 'id'>) => {
-    if (editingPost) {
-      setPosts(posts.map(p =>
-        p.id === editingPost.id
-          ? { ...postData, id: editingPost.id }
-          : p
-      ))
-    } else {
-      const newPost: Post = {
-        ...postData,
-        id: Date.now().toString()
+  const handleSavePost = async (postData: Omit<Post, 'id'>) => {
+    try {
+      const response = await fetch('/api/daily-content/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      })
+
+      if (response.ok) {
+        // Refresh posts from database
+        const postsResponse = await fetch('/api/daily-content/all')
+        if (postsResponse.ok) {
+          const updatedPosts = await postsResponse.json()
+          setPosts(updatedPosts)
+        }
+
+        setIsModalOpen(false)
+        setEditingPost(null)
+      } else {
+        console.error('Failed to save post')
+        alert('Failed to save post. Please try again.')
       }
-      setPosts([newPost, ...posts])
+    } catch (error) {
+      console.error('Error saving post:', error)
+      alert('Error saving post. Please try again.')
     }
-    setIsModalOpen(false)
-    setEditingPost(null)
   }
 
   const renderSection = (title: string, verses: string[], icon?: string) => {
@@ -93,10 +170,18 @@ export default function Dashboard() {
               onChange={(e) => setSelectedDate(e.target.value)}
               className="input w-auto min-w-48"
             >
-              <option value="latest">Latest</option>
-              <option value="2024-01-15">January 15, 2024</option>
-              <option value="2024-01-08">January 8, 2024</option>
-              <option value="2024-01-01">January 1, 2024</option>
+              {availableDates.length > 0 && latestDate ? (
+                <>
+                  <option value="latest">Latest ({formatDate(latestDate)})</option>
+                  {availableDates.map((date, index) => (
+                    <option key={date} value={date}>
+                      {formatDate(date)} {index === 0 ? '(Latest)' : ''}
+                    </option>
+                  ))}
+                </>
+              ) : (
+                <option value="latest">No posts available</option>
+              )}
             </select>
           </div>
           {user && (
@@ -112,7 +197,12 @@ export default function Dashboard() {
 
         {/* Posts */}
         <div className="space-y-6">
-          {posts.map((post) => (
+          {loading ? (
+            <div className="card p-12 text-center">
+              <p className="text-slate-500 text-lg">Loading posts...</p>
+            </div>
+          ) : (
+            filteredPosts.map((post) => (
             <div key={post.id} className="card p-6 hover:shadow-xl transition-all duration-300">
               {/* Post Header */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-slate-200">
@@ -153,11 +243,14 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
-          ))}
+          ))
+          )}
 
-          {posts.length === 0 && (
+          {!loading && filteredPosts.length === 0 && (
             <div className="card p-12 text-center">
-              <p className="text-slate-500 text-lg italic">No posts available</p>
+              <p className="text-slate-500 text-lg italic">
+                {posts.length === 0 ? 'No posts available' : 'No posts found for selected date'}
+              </p>
             </div>
           )}
         </div>

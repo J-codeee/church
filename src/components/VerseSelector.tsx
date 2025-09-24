@@ -40,7 +40,7 @@ export default function VerseSelector({ value, onChange, onRemove }: VerseSelect
     } else if (!book && !chapter && !verse1) {
       onChange('')
     }
-  }, [book, chapter, verse1, verse2, onChange])
+  }, [book, chapter, verse1, verse2])
 
   const handleBookChange = (selectedBook: string) => {
     setBook(selectedBook)
