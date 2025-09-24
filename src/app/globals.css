@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@layer base {
+  * {
+    @apply border-slate-200;
+  }
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply bg-accent hover:bg-accent-600 text-white focus:ring-accent-500 transform hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply bg-white hover:bg-slate-50 text-accent border border-accent hover:shadow-lg;
+  }
+
+  .btn-success {
+    @apply bg-green-500 hover:bg-green-600 text-white focus:ring-green-500 transform hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .btn-danger {
+    @apply bg-red-500 hover:bg-red-600 text-white focus:ring-red-500 px-3 py-1.5 text-xs;
+  }
+
+  .card {
+    @apply bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300;
+  }
+
+  .input {
+    @apply w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-colors;
+  }
+
+  .section-title {
+    @apply text-xl font-serif font-semibold text-primary mb-3 flex items-center gap-2;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-400 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-500;
+}

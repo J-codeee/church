@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>United with Christ through the Holy Spirit Church</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #1a237e;
+            background: linear-gradient(135deg, rgba(227, 242, 253, 0.8) 0%, rgba(248, 249, 250, 0.9) 50%, rgba(255, 243, 224, 0.8) 100%);
+            background-image: 
+                url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCABgAIADASIAAhEBAxEB/8QAGwAAAQUBAQAAAAAAAAAAAAAAAAIDBAUGAQf/xAA5EAABAwMCBAQEBAUDBQAAAAABAgMRAAQhEjEFBkFREyJhcQeBoZEyQrHBFCPR4fBScvEVJDNigv/EABUBAQEAAAAAAAAAAAAAAAAAAAMEB//EACERAAICAQQDAQEAAAAAAAAAAAABAhEDBBIhMUFRYXGB/9oADAMBAAIRAxEAPwD3GpOOKa1pK06XGyaVr8Nal21tC/FVLE1W/E3mpWyXZGXO3Nz50aFFFFUJjcfmkRlSKZ4jdGu9vLnG7nFGvV2/yNPppxCGUJ70YMjOUv7SdKgTUC54jbWI/wC4uGGjO2oVzxbUmMYnXqTLIHb2zT7+5KuTAVjxE7+tVHfLZOH3O3VlzqBdU1Oc3x3Uho+1Z9/jJupuEJJQlO1Q79K7p24UnzJ6inKKKs7OOPvkZ70LJm9+grFJKhxBkjzJcUE86T+Sj/eTCW/cMOq9j2KkK+2lFMsYNwW/pknPT8qa7qRnLZcOsqZVBcTe+G4HXE1FgSGJYNq1K0m3ZieSCGcqGLuqmQs/1Gb7Ea9RxTTvDUOlOXOHp+qRHrVeE94H/7rjinbQVZJRZCsxF6w4VqLyGVtBOvpLp3jOcmIy7tJI9DTCy9Gl8RJEGYq4KfGLaTzS0ttK8Ak9qapgxxJRBIaZ3uxlJp6lPRSDkzUgaKKKvzCqE7Fht/aO30SaIBPlJ9e2mYUNzL4lKCZTJ9VJpUdV8UR1OUopJncdRCPaP0q4uWEeLoUlSdYKTj/jY8UE8wxlBK5A1VJvhqfXFCQe9Z6X5vXp6eJEjl6Y95xLcpC0ksrBnpSU/kQ4mzVqKdXS3CYOfx9eQyNOhJUpXCQKhfaL/8Ao/8ATepI8Tw2SvzJGr9qbmRBg/8AsazqjLRzPGSGpOKBp3qEcDO9CJQpKh1BnHrFKzr/2Q=='),
+                radial-gradient(circle at 25% 25%, rgba(33, 150, 243, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(103, 58, 183, 0.03) 0%, transparent 50%);
+            background-size: cover, 400px 400px, 600px 600px;
+            background-position: center center, top left, bottom right;
+            background-attachment: fixed;
+            background-repeat: no-repeat, repeat, repeat;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(227, 242, 253, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(33, 150, 243, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(33, 150, 243, 0.1);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1565c0;
+            text-shadow: 0 2px 4px rgba(33, 150, 243, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "✞";
+            font-size: 1.5rem;
+            color: #2196f3;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(227,242,253,0.8) 100%);
+            color: #1565c0;
+            border: 2px solid #2196f3;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+            color: white;
+            border: 2px solid transparent;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #388e3c 0%, #2e7d32 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 20px;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 3.5rem;
+            margin: 3rem 0;
+            background: linear-gradient(135deg, #1565c0 0%, #2196f3 50%, #673ab7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            text-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+            position: relative;
+        }
+
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, #2196f3 0%, #673ab7 100%);
+            border-radius: 2px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(227,242,253,0.8) 100%);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(33, 150, 243, 0.15);
+            border: 1px solid rgba(33, 150, 243, 0.1);
+        }
+
+        .date-filter {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .date-filter label {
+            font-weight: 600;
+            color: #1565c0;
+        }
+
+        select, input {
+            padding: 0.6rem 1rem;
+            border: 2px solid rgba(33, 150, 243, 0.2);
+            border-radius: 15px;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.9);
+            color: #1565c0;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #2196f3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+            background: white;
+        }
+
+        .post-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(227,242,253,0.8) 100%);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 12px 40px rgba(33, 150, 243, 0.15);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(33, 150, 243, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #2196f3 0%, #673ab7 100%);
+        }
+
+        .post-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(33, 150, 243, 0.25);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(33, 150, 243, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .post-date {
+            color: #1565c0;
+            font-size: 1rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(103, 58, 183, 0.1) 100%);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: #1565c0;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: "📖";
+            font-size: 1.2rem;
+        }
+
+        .verse-list {
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.05) 0%, rgba(255,255,255,0.8) 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 0.5rem 0;
+            border-left: 5px solid #2196f3;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.1);
+        }
+
+        .verse-item {
+            margin: 0.8rem 0;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            color: #1565c0;
+            font-weight: 500;
+            border: 1px solid rgba(33, 150, 243, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .verse-item:hover {
+            background: white;
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+            transform: translateX(5px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 35, 126, 0.7);
+            backdrop-filter: blur(5px);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(227,242,253,0.9) 100%);
+            backdrop-filter: blur(20px);
+            margin: 2% auto;
+            padding: 2.5rem;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 850px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(33, 150, 243, 0.3);
+            border: 1px solid rgba(33, 150, 243, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(33, 150, 243, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            color: #1565c0;
+            font-weight: 700;
+        }
+
+        .close {
+            color: #1565c0;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.2rem;
+            border-radius: 50%;
+        }
+
+        .close:hover {
+            color: #2196f3;
+            background: rgba(33, 150, 243, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            color: #1565c0;
+            font-size: 1.1rem;
+        }
+
+        .verse-input-group {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.05) 0%, rgba(255,255,255,0.9) 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(33, 150, 243, 0.1);
+        }
+
+        .verse-display {
+            flex: 1;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.9);
+            border: 2px solid rgba(33, 150, 243, 0.2);
+            border-radius: 10px;
+            min-height: 2.5rem;
+            color: #1565c0;
+            font-weight: 500;
+        }
+
+        .dynamic-section {
+            border: 2px dashed rgba(33, 150, 243, 0.3);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.03) 0%, rgba(255,255,255,0.8) 100%);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-header span {
+            font-weight: 700;
+            color: #1565c0;
+            font-size: 1.1rem;
+        }
+
+        .add-verse-btn, .add-section-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-verse-btn:hover, .add-section-btn:hover {
+            background: linear-gradient(135deg, #388e3c 0%, #2e7d32 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .speaker-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid rgba(33, 150, 243, 0.2);
+            border-radius: 15px;
+            background: rgba(255,255,255,0.9);
+            color: #1565c0;
+            font-weight: 500;
+        }
+
+        .custom-section {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(255,255,255,0.9) 100%);
+            border: 2px dashed rgba(76, 175, 80, 0.3);
+        }
+
+        .no-posts {
+            text-align: center;
+            color: #1565c0;
+            font-style: italic;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.05) 0%, rgba(255,255,255,0.8) 100%);
+            border-radius: 20px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background-size: 400px 400px, 200px 200px, 300px 300px;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .title {
+                font-size: 2.2rem;
+                margin: 2rem 0;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem 1rem;
+            }
+            
+            .date-filter {
+                flex-direction: column;
+                gap: 0.8rem;
+                width: 100%;
+            }
+            
+            .date-filter label {
+                text-align: center;
+            }
+            
+            .date-filter select {
+                width: 100%;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 1.5rem;
+            }
+            
+            .verse-input-group {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+            
+            .verse-input-group select,
+            .verse-input-group input {
+                width: 100%;
+            }
+            
+            .post-card {
+                padding: 1.5rem;
+            }
+            
+            .post-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .post-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .logo {
+                font-size: 1.1rem;
+                text-align: center;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .modal-content {
+                padding: 1rem;
+            }
+            
+            .post-card {
+                padding: 1rem;
+            }
+            
+            .verse-list {
+                padding: 1rem;
+            }
+            
+            .section-title::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">UCHSC</div>
+        <div class="auth-buttons">
+            <button class="btn btn-secondary">Sign Up</button>
+            <button class="btn btn-primary">Login</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="title">United with Christ through the Holy Spirit</h1>
+        
+        <div class="controls">
+            <div class="date-filter">
+                <label for="dateSelect">Select Date:</label>
+                <select id="dateSelect">
+                    <option value="latest">Latest</option>
+                    <option value="2024-01-15">January 15, 2024</option>
+                    <option value="2024-01-08">January 8, 2024</option>
+                    <option value="2024-01-01">January 1, 2024</option>
+                </select>
+            </div>
+            <button class="btn btn-success" onclick="openModal()">Add</button>
+        </div>
+
+        <div id="postsContainer">
+            <!-- Sample post -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-date">January 15, 2024</div>
+                    <div class="post-actions">
+                        <button class="btn btn-primary" onclick="editPost(this)">Edit</button>
+                        <button class="btn btn-danger" onclick="deletePost(this)">Delete</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Opening</div>
+                    <div class="verse-list">
+                        <div class="verse-item">Matthew 5:6</div>
+                        <div class="verse-item">John 3:16-18</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Lessons</div>
+                    <div class="verse-list">
+                        <div class="verse-item">Romans 8:28</div>
+                        <div class="verse-item">Philippians 4:13</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Vision</div>
+                    <div class="verse-list">
+                        <div class="verse-item">Jeremiah 29:11</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Speaker</div>
+                    <div class="verse-list">
+                        <div style="padding: 0.5rem;">Pastor John Smith</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Post</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <form id="postForm">
+                <div class="form-group">
+                    <label for="postDate">Date</label>
+                    <input type="date" id="postDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Lead (Opening)</label>
+                    <div id="openingSection" class="dynamic-section">
+                        <div class="section-header">
+                            <span>Opening Verses</span>
+                            <button type="button" class="add-verse-btn" onclick="addVerse('opening')">+ Add Verse</button>
+                        </div>
+                        <div id="openingVerses"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Lessons</label>
+                    <div id="lessonsSection" class="dynamic-section">
+                        <div class="section-header">
+                            <span>Lesson Verses</span>
+                            <button type="button" class="add-verse-btn" onclick="addVerse('lessons')">+ Add Verse</button>
+                        </div>
+                        <div id="lessonsVerses"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Vision</label>
+                    <div id="visionSection" class="dynamic-section">
+                        <div class="section-header">
+                            <span>Vision Verses</span>
+                            <button type="button" class="add-verse-btn" onclick="addVerse('vision')">+ Add Verse</button>
+                        </div>
+                        <div id="visionVerses"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="speaker">Speaker</label>
+                    <input type="text" id="speaker" class="speaker-input" placeholder="Enter speaker name">
+                </div>
+
+                <div id="customSections"></div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary add-section-btn" onclick="addCustomSection()">+ Add Additional Section</button>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Bible books with chapters
+        const bibleBooks = {
+            'Genesis': 50,
+            'Exodus': 40,
+            'Leviticus': 27,
+            'Numbers': 36,
+            'Deuteronomy': 34,
+            'Joshua': 24,
+            'Judges': 21,
+            'Ruth': 4,
+            '1 Samuel': 31,
+            '2 Samuel': 24,
+            '1 Kings': 22,
+            '2 Kings': 25,
+            '1 Chronicles': 29,
+            '2 Chronicles': 36,
+            'Ezra': 10,
+            'Nehemiah': 13,
+            'Esther': 10,
+            'Job': 42,
+            'Psalms': 150,
+            'Proverbs': 31,
+            'Ecclesiastes': 12,
+            'Song of Solomon': 8,
+            'Isaiah': 66,
+            'Jeremiah': 52,
+            'Lamentations': 5,
+            'Ezekiel': 48,
+            'Daniel': 12,
+            'Hosea': 14,
+            'Joel': 3,
+            'Amos': 9,
+            'Obadiah': 1,
+            'Jonah': 4,
+            'Micah': 7,
+            'Nahum': 3,
+            'Habakkuk': 3,
+            'Zephaniah': 3,
+            'Haggai': 2,
+            'Zechariah': 14,
+            'Malachi': 4,
+            'Matthew': 28,
+            'Mark': 16,
+            'Luke': 24,
+            'John': 21,
+            'Acts': 28,
+            'Romans': 16,
+            '1 Corinthians': 16,
+            '2 Corinthians': 13,
+            'Galatians': 6,
+            'Ephesians': 6,
+            'Philippians': 4,
+            'Colossians': 4,
+            '1 Thessalonians': 5,
+            '2 Thessalonians': 3,
+            '1 Timothy': 6,
+            '2 Timothy': 4,
+            'Titus': 3,
+            'Philemon': 1,
+            'Hebrews': 13,
+            'James': 5,
+            '1 Peter': 5,
+            '2 Peter': 3,
+            '1 John': 5,
+            '2 John': 1,
+            '3 John': 1,
+            'Jude': 1,
+            'Revelation': 22
+        };
+
+        // Maximum verses per chapter (simplified - actual counts vary)
+        const maxVersesPerChapter = 150; // Approximate maximum
+
+        let editingPost = null;
+        let customSectionCount = 0;
+
+        function openModal() {
+            document.getElementById('postModal').style.display = 'block';
+            document.getElementById('modalTitle').textContent = 'Add New Post';
+            document.getElementById('postForm').reset();
+            clearDynamicSections();
+            editingPost = null;
+            
+            // Set default date to today
+            document.getElementById('postDate').valueAsDate = new Date();
+            
+            // Add initial verse inputs
+            addVerse('opening');
+            addVerse('lessons');
+            addVerse('vision');
+        }
+
+        function closeModal() {
+            document.getElementById('postModal').style.display = 'none';
+        }
+
+        function clearDynamicSections() {
+            document.getElementById('openingVerses').innerHTML = '';
+            document.getElementById('lessonsVerses').innerHTML = '';
+            document.getElementById('visionVerses').innerHTML = '';
+            document.getElementById('customSections').innerHTML = '';
+            customSectionCount = 0;
+        }
+
+        function addVerse(section) {
+            const container = document.getElementById(section + 'Verses');
+            const verseId = section + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            
+            const verseDiv = document.createElement('div');
+            verseDiv.className = 'verse-input-group';
+            verseDiv.innerHTML = `
+                <select onchange="updateChapters('${verseId}')" id="${verseId}_book">
+                    <option value="">Select Book</option>
+                    ${Object.keys(bibleBooks).map(book => `<option value="${book}">${book}</option>`).join('')}
+                </select>
+                <select onchange="updateVerses('${verseId}')" id="${verseId}_chapter" disabled>
+                    <option value="">Chapter</option>
+                </select>
+                <input type="number" id="${verseId}_verse1" placeholder="Verse" min="1" disabled>
+                <span>-</span>
+                <input type="number" id="${verseId}_verse2" placeholder="End" min="1" disabled>
+                <div class="verse-display" id="${verseId}_display">Select book, chapter, and verse</div>
+                <button type="button" class="btn btn-danger" onclick="removeVerse(this)">×</button>
+            `;
+            
+            container.appendChild(verseDiv);
+            
+            // Add event listeners for verse inputs
+            document.getElementById(verseId + '_verse1').addEventListener('input', () => updateVerseDisplay(verseId));
+            document.getElementById(verseId + '_verse2').addEventListener('input', () => updateVerseDisplay(verseId));
+        }
+
+        function updateChapters(verseId) {
+            const bookSelect = document.getElementById(verseId + '_book');
+            const chapterSelect = document.getElementById(verseId + '_chapter');
+            const verse1Input = document.getElementById(verseId + '_verse1');
+            const verse2Input = document.getElementById(verseId + '_verse2');
+            
+            const selectedBook = bookSelect.value;
+            
+            if (selectedBook) {
+                const chapters = bibleBooks[selectedBook];
+                chapterSelect.innerHTML = '<option value="">Chapter</option>';
+                
+                for (let i = 1; i <= chapters; i++) {
+                    chapterSelect.innerHTML += `<option value="${i}">${i}</option>`;
+                }
+                
+                chapterSelect.disabled = false;
+                verse1Input.disabled = true;
+                verse2Input.disabled = true;
+                verse1Input.value = '';
+                verse2Input.value = '';
+            } else {
+                chapterSelect.innerHTML = '<option value="">Chapter</option>';
+                chapterSelect.disabled = true;
+                verse1Input.disabled = true;
+                verse2Input.disabled = true;
+            }
+            
+            updateVerseDisplay(verseId);
+        }
+
+        function updateVerses(verseId) {
+            const chapterSelect = document.getElementById(verseId + '_chapter');
+            const verse1Input = document.getElementById(verseId + '_verse1');
+            const verse2Input = document.getElementById(verseId + '_verse2');
+            
+            if (chapterSelect.value) {
+                verse1Input.disabled = false;
+                verse2Input.disabled = false;
+                verse1Input.max = maxVersesPerChapter;
+                verse2Input.max = maxVersesPerChapter;
+            } else {
+                verse1Input.disabled = true;
+                verse2Input.disabled = true;
+                verse1Input.value = '';
+                verse2Input.value = '';
+            }
+            
+            updateVerseDisplay(verseId);
+        }
+
+        function updateVerseDisplay(verseId) {
+            const book = document.getElementById(verseId + '_book').value;
+            const chapter = document.getElementById(verseId + '_chapter').value;
+            const verse1 = document.getElementById(verseId + '_verse1').value;
+            const verse2 = document.getElementById(verseId + '_verse2').value;
+            const display = document.getElementById(verseId + '_display');
+            
+            if (book && chapter && verse1) {
+                let reference = `${book} ${chapter}:${verse1}`;
+                if (verse2 && verse2 !== verse1) {
+                    reference += `-${verse2}`;
+                }
+                display.textContent = reference;
+            } else {
+                display.textContent = 'Select book, chapter, and verse';
+            }
+        }
+
+        function removeVerse(button) {
+            button.parentElement.remove();
+        }
+
+        function addCustomSection() {
+            customSectionCount++;
+            const container = document.getElementById('customSections');
+            const sectionId = 'custom_' + customSectionCount;
+            
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'form-group';
+            sectionDiv.innerHTML = `
+                <div class="dynamic-section custom-section">
+                    <div class="section-header">
+                        <input type="text" placeholder="Section Title (e.g., Closing)" class="speaker-input" id="${sectionId}_title" style="max-width: 300px;">
+                        <div>
+                            <button type="button" class="add-verse-btn" onclick="addCustomVerse('${sectionId}')">+ Add Verse</button>
+                            <button type="button" class="btn btn-danger" onclick="removeCustomSection(this)">Remove Section</button>
+                        </div>
+                    </div>
+                    <div id="${sectionId}_verses"></div>
+                </div>
+            `;
+            
+            container.appendChild(sectionDiv);
+        }
+
+        function addCustomVerse(sectionId) {
+            const container = document.getElementById(sectionId + '_verses');
+            const verseId = sectionId + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            
+            const verseDiv = document.createElement('div');
+            verseDiv.className = 'verse-input-group';
+            verseDiv.innerHTML = `
+                <select onchange="updateChapters('${verseId}')" id="${verseId}_book">
+                    <option value="">Select Book</option>
+                    ${Object.keys(bibleBooks).map(book => `<option value="${book}">${book}</option>`).join('')}
+                </select>
+                <select onchange="updateVerses('${verseId}')" id="${verseId}_chapter" disabled>
+                    <option value="">Chapter</option>
+                </select>
+                <input type="number" id="${verseId}_verse1" placeholder="Verse" min="1" disabled>
+                <span>-</span>
+                <input type="number" id="${verseId}_verse2" placeholder="End" min="1" disabled>
+                <div class="verse-display" id="${verseId}_display">Select book, chapter, and verse</div>
+                <button type="button" class="btn btn-danger" onclick="removeVerse(this)">×</button>
+            `;
+            
+            container.appendChild(verseDiv);
+            
+            // Add event listeners for verse inputs
+            document.getElementById(verseId + '_verse1').addEventListener('input', () => updateVerseDisplay(verseId));
+            document.getElementById(verseId + '_verse2').addEventListener('input', () => updateVerseDisplay(verseId));
+        }
+
+        function removeCustomSection(button) {
+            button.closest('.form-group').remove();
+        }
+
+        function collectVerses(sectionId) {
+            const container = document.getElementById(sectionId + 'Verses');
+            const verses = [];
+            
+            container.querySelectorAll('.verse-input-group').forEach(group => {
+                const display = group.querySelector('.verse-display');
+                if (display.textContent !== 'Select book, chapter, and verse') {
+                    verses.push(display.textContent);
+                }
+            });
+            
+            return verses;
+        }
+
+        function collectCustomSections() {
+            const customSections = [];
+            const container = document.getElementById('customSections');
+            
+            container.querySelectorAll('.custom-section').forEach(section => {
+                const titleInput = section.querySelector('input[type="text"]');
+                const title = titleInput.value.trim();
+                
+                if (title) {
+                    const sectionId = titleInput.id.replace('_title', '');
+                    const verses = [];
+                    
+                    section.querySelectorAll('.verse-input-group').forEach(group => {
+                        const display = group.querySelector('.verse-display');
+                        if (display.textContent !== 'Select book, chapter, and verse') {
+                            verses.push(display.textContent);
+                        }
+                    });
+                    
+                    customSections.push({ title, verses });
+                }
+            });
+            
+            return customSections;
+        }
+
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                date: document.getElementById('postDate').value,
+                opening: collectVerses('opening'),
+                lessons: collectVerses('lessons'),
+                vision: collectVerses('vision'),
+                speaker: document.getElementById('speaker').value,
+                customSections: collectCustomSections()
+            };
+            
+            if (editingPost) {
+                updatePostDisplay(editingPost, formData);
+            } else {
+                createNewPost(formData);
+            }
+            
+            closeModal();
+        });
+
+        function createNewPost(data) {
+            const postsContainer = document.getElementById('postsContainer');
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post-card';
+            
+            postDiv.innerHTML = generatePostHTML(data);
+            postsContainer.insertBefore(postDiv, postsContainer.firstChild);
+        }
+
+        function generatePostHTML(data) {
+            const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            };
+
+            const generateSection = (title, verses) => {
+                if (!verses || verses.length === 0) return '';
+                
+                return `
+                    <div class="section">
+                        <div class="section-title">${title}</div>
+                        <div class="verse-list">
+                            ${verses.map(verse => `<div class="verse-item">${verse}</div>`).join('')}
+                        </div>
+                    </div>
+                `;
+            };
+
+            let html = `
+                <div class="post-header">
+                    <div class="post-date">${formatDate(data.date)}</div>
+                    <div class="post-actions">
+                        <button class="btn btn-primary" onclick="editPost(this)">Edit</button>
+                        <button class="btn btn-danger" onclick="deletePost(this)">Delete</button>
+                    </div>
+                </div>
+            `;
+
+            html += generateSection('Opening', data.opening);
+            html += generateSection('Lessons', data.lessons);
+            html += generateSection('Vision', data.vision);
+            
+            if (data.speaker) {
+                html += `
+                    <div class="section">
+                        <div class="section-title">Speaker</div>
+                        <div class="verse-list">
+                            <div style="padding: 0.5rem;">${data.speaker}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            data.customSections.forEach(section => {
+                html += generateSection(section.title, section.verses);
+            });
+
+            return html;
+        }
+
+        function editPost(button) {
+            editingPost = button.closest('.post-card');
+            document.getElementById('modalTitle').textContent = 'Edit Post';
+            document.getElementById('postModal').style.display = 'block';
+            
+            // Extract data from post and populate form
+            // This would require more complex parsing in a real implementation
+            // For demo purposes, we'll just clear and show the form
+            clearDynamicSections();
+            addVerse('opening');
+            addVerse('lessons');
+            addVerse('vision');
+        }
+
+        function updatePostDisplay(postElement, data) {
+            postElement.innerHTML = generatePostHTML(data);
+        }
+
+        function deletePost(button) {
+            if (confirm('Are you sure you want to delete this post?')) {
+                button.closest('.post-card').remove();
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('postModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize with default verses
+        window.addEventListener('load', function() {
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('postDate').value = today;
+        });
+    </script>
+</body>
+</html>
