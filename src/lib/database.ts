@@ -132,10 +132,10 @@ export async function createOrUpdateDailyContent(
     const updateResult = await sql`
       UPDATE daily_content
       SET intercessor = ${intercessor},
-          opening = ${opening},
-          lessons = ${lessons},
-          vision = ${vision},
-          speaker = ${speaker},
+          opening = ARRAY[${sql.join(opening.map(v => sql`${v}`), sql`, `)}]::TEXT[],
+          lessons = ARRAY[${sql.join(lessons.map(v => sql`${v}`), sql`, `)}]::TEXT[],
+          vision = ARRAY[${sql.join(vision.map(v => sql`${v}`), sql`, `)}]::TEXT[],
+          speaker = ARRAY[${sql.join(speaker.map(v => sql`${v}`), sql`, `)}]::TEXT[],
           custom_sections = ${JSON.stringify(customSections)},
           notes = ${notes},
           updated_at = CURRENT_TIMESTAMP
@@ -165,7 +165,11 @@ export async function createOrUpdateDailyContent(
         custom_sections, notes, created_by
       )
       VALUES (
-        ${date}, ${intercessor}, ${opening}, ${lessons}, ${vision}, ${speaker},
+        ${date}, ${intercessor},
+        ARRAY[${sql.join(opening.map(v => sql`${v}`), sql`, `)}]::TEXT[],
+        ARRAY[${sql.join(lessons.map(v => sql`${v}`), sql`, `)}]::TEXT[],
+        ARRAY[${sql.join(vision.map(v => sql`${v}`), sql`, `)}]::TEXT[],
+        ARRAY[${sql.join(speaker.map(v => sql`${v}`), sql`, `)}]::TEXT[],
         ${JSON.stringify(customSections)}, ${notes}, ${userId}
       )
       RETURNING id, date, intercessor, opening, lessons, vision, speaker,

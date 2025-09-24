@@ -9,18 +9,7 @@ import PostModal from './PostModal'
 
 export default function Dashboard() {
   const { user } = useAuth()
-  const [posts, setPosts] = useState<Post[]>([
-    {
-      id: '1',
-      date: '2024-01-15',
-      intercessor: 'Maria Santos',
-      opening: ['Matthew 5:6', 'John 3:16-18'],
-      lessons: ['Romans 8:28', 'Philippians 4:13'],
-      vision: ['Jeremiah 29:11'],
-      speaker: ['1 Corinthians 2:4-5', '2 Timothy 4:2'],
-      customSections: []
-    }
-  ])
+  const [posts, setPosts] = useState<Post[]>([])
 
   const [selectedDate, setSelectedDate] = useState('latest')
   const [isModalOpen, setIsModalOpen] = useState(false)
