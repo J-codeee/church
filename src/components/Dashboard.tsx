@@ -53,20 +53,25 @@ export default function Dashboard() {
     if (!verses || verses.length === 0) return null
 
     return (
-      <div className="mb-6">
-        <div className="section-title">
-          {icon && <span className="text-lg">{icon}</span>}
-          {title}
+      <div className="mb-8">
+        <div className="section-title text-xl font-bold">
+          {icon && <span className="text-2xl">{icon}</span>}
+          <span className="gradient-text">{title}</span>
         </div>
-        <div className="bg-slate-50 p-4 rounded-lg border-l-4 border-accent">
+        <div className="glass p-6 rounded-2xl border border-white/30 shadow-lg">
           {title === 'Intercessor' ? (
-            <div className="p-2">{verses[0]}</div>
+            <div className="p-4 glass rounded-xl bg-accent/5 border border-accent/20 font-medium text-primary italic text-lg leading-relaxed">
+              "{verses[0]}"
+            </div>
           ) : (
-            verses.map((verse, index) => (
-              <div key={index} className="py-2 px-3 mb-2 last:mb-0 bg-white rounded border font-medium text-primary">
-                {verse}
-              </div>
-            ))
+            <div className="space-y-3">
+              {verses.map((verse, index) => (
+                <div key={index} className="p-4 glass rounded-xl bg-gradient-to-r from-white/50 to-blue-50/30 border border-white/40 font-medium text-primary hover:shadow-md transition-all duration-300 transform hover:scale-[1.02]">
+                  <span className="text-accent font-bold mr-2">{index + 1}.</span>
+                  {verse}
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
@@ -74,63 +79,74 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="pt-20 min-h-screen bg-slate-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl sm:text-4xl font-serif font-semibold text-center text-primary mb-12 relative">
-          Church Dashboard
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gold rounded-full"></div>
-        </h1>
+    <div className="pt-20 min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center mb-16 animate-slide-up">
+          <h1 className="text-4xl sm:text-5xl font-serif font-bold text-primary mb-4 relative">
+            <span className="gradient-text">Church Dashboard</span>
+          </h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-accent via-purple to-electric rounded-full mx-auto"></div>
+          <p className="text-slate-600 text-lg mt-4 max-w-2xl mx-auto">
+            Explore our spiritual content, daily verses, and community updates
+          </p>
+        </div>
 
         {/* Controls */}
-        <div className="card p-6 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <label htmlFor="dateSelect" className="font-medium text-primary">
-              Select Date:
-            </label>
-            <select
-              id="dateSelect"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              className="input w-auto min-w-48"
-            >
-              <option value="latest">Latest</option>
-              <option value="2024-01-15">January 15, 2024</option>
-              <option value="2024-01-08">January 8, 2024</option>
-              <option value="2024-01-01">January 1, 2024</option>
-            </select>
+        <div className="card p-8 mb-12 animate-fade-in [animation-delay:200ms]">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <label htmlFor="dateSelect" className="font-semibold text-primary text-lg flex items-center gap-2">
+                <span className="text-accent">📅</span>
+                Select Date:
+              </label>
+              <select
+                id="dateSelect"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="input min-w-52 text-base"
+              >
+                <option value="latest">✨ Latest Content</option>
+                <option value="2024-01-15">January 15, 2024</option>
+                <option value="2024-01-08">January 8, 2024</option>
+                <option value="2024-01-01">January 1, 2024</option>
+              </select>
+            </div>
+            {user && (
+              <button
+                onClick={handleAddPost}
+                className="btn-success flex items-center gap-3 text-base px-8 py-3"
+              >
+                <Plus className="w-5 h-5" />
+                Create New Post
+              </button>
+            )}
           </div>
-          {user && (
-            <button
-              onClick={handleAddPost}
-              className="btn btn-success flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              Add New Post
-            </button>
-          )}
         </div>
 
         {/* Posts */}
-        <div className="space-y-6">
-          {posts.map((post) => (
-            <div key={post.id} className="card p-6 hover:shadow-xl transition-all duration-300">
+        <div className="space-y-10">
+          {posts.map((post, index) => (
+            <div key={post.id} className="card p-8 animate-slide-up" style={{animationDelay: `${(index + 1) * 100}ms`}}>
               {/* Post Header */}
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-slate-200">
-                <div className="bg-accent/10 text-accent px-3 py-1.5 rounded-lg font-medium">
-                  {formatDate(post.date)}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8 pb-6 border-b border-white/30">
+                <div className="flex items-center gap-3">
+                  <div className="bg-gradient-to-r from-accent to-purple text-white px-5 py-2.5 rounded-full font-bold text-sm shadow-lg">
+                    {formatDate(post.date)}
+                  </div>
+                  <div className="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
                 </div>
                 {user && (
-                  <div className="flex gap-2">
+                  <div className="flex gap-3">
                     <button
                       onClick={() => handleEditPost(post)}
-                      className="btn btn-primary flex items-center gap-2"
+                      className="btn-primary flex items-center gap-2 text-sm"
                     >
                       <Edit className="w-4 h-4" />
-                      Edit
+                      Edit Post
                     </button>
                     <button
                       onClick={() => handleDeletePost(post.id)}
-                      className="btn btn-danger flex items-center gap-2"
+                      className="btn-danger flex items-center gap-2 text-sm"
                     >
                       <Trash2 className="w-4 h-4" />
                       Delete
@@ -156,8 +172,25 @@ export default function Dashboard() {
           ))}
 
           {posts.length === 0 && (
-            <div className="card p-12 text-center">
-              <p className="text-slate-500 text-lg italic">No posts available</p>
+            <div className="card p-16 text-center animate-fade-in">
+              <div className="mb-6">
+                <div className="w-24 h-24 bg-gradient-to-r from-accent/20 to-purple/20 rounded-full mx-auto flex items-center justify-center mb-4">
+                  <span className="text-4xl">📖</span>
+                </div>
+              </div>
+              <h3 className="text-2xl font-bold text-primary mb-3 gradient-text">No Posts Yet</h3>
+              <p className="text-slate-600 text-lg mb-6 max-w-md mx-auto">
+                Start sharing spiritual content with your community by creating your first post.
+              </p>
+              {user && (
+                <button
+                  onClick={handleAddPost}
+                  className="btn-primary flex items-center gap-2 mx-auto"
+                >
+                  <Plus className="w-5 h-5" />
+                  Create Your First Post
+                </button>
+              )}
             </div>
           )}
         </div>

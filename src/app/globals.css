@@ -8,42 +8,80 @@
   * {
     @apply border-slate-200;
   }
+  html {
+    @apply scroll-smooth;
+  }
   body {
-    @apply bg-slate-50 text-slate-900 font-sans;
+    @apply bg-gradient-to-br from-slate-50 via-white to-blue-50/30 text-slate-900 font-sans;
+    background-attachment: fixed;
+  }
+
+  /* Custom Glass Effect */
+  .glass {
+    @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl;
+  }
+
+  .glass-dark {
+    @apply bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl;
   }
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 active:scale-95;
   }
 
   .btn-primary {
-    @apply bg-accent hover:bg-accent-600 text-white focus:ring-accent-500 transform hover:-translate-y-1 hover:shadow-lg;
+    @apply bg-gradient-to-r from-accent to-purple text-white hover:from-accent-600 hover:to-purple-600 focus:ring-accent-500 shadow-lg hover:shadow-2xl hover:shadow-accent/25;
   }
 
   .btn-secondary {
-    @apply bg-white hover:bg-slate-50 text-accent border border-accent hover:shadow-lg;
+    @apply glass text-accent border border-accent/20 hover:border-accent/40 hover:shadow-xl hover:bg-white/90;
   }
 
   .btn-success {
-    @apply bg-green-500 hover:bg-green-600 text-white focus:ring-green-500 transform hover:-translate-y-1 hover:shadow-lg;
+    @apply bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white focus:ring-green-500 shadow-lg hover:shadow-xl hover:shadow-green-500/25;
   }
 
   .btn-danger {
-    @apply bg-red-500 hover:bg-red-600 text-white focus:ring-red-500 px-3 py-1.5 text-xs;
+    @apply bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 text-white focus:ring-red-500 px-4 py-2 text-xs shadow-lg hover:shadow-xl;
+  }
+
+  .btn-glass {
+    @apply glass text-primary hover:bg-white/90 border border-white/30 hover:border-white/50 shadow-xl hover:shadow-2xl;
+  }
+
+  .btn-electric {
+    @apply bg-gradient-to-r from-electric to-cyan-400 hover:from-electric-600 hover:to-cyan-500 text-white shadow-lg hover:shadow-2xl hover:shadow-electric/30;
   }
 
   .card {
-    @apply bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300;
+    @apply glass rounded-2xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] backdrop-blur-xl;
+  }
+
+  .card-dark {
+    @apply glass-dark rounded-2xl border border-white/10 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02];
   }
 
   .input {
-    @apply w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-colors;
+    @apply w-full px-4 py-3 glass rounded-xl border border-white/30 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent/50 transition-all duration-300 placeholder:text-slate-400;
   }
 
   .section-title {
-    @apply text-xl font-serif font-semibold text-primary mb-3 flex items-center gap-2;
+    @apply text-2xl font-serif font-bold text-primary mb-4 flex items-center gap-3 relative;
+  }
+
+  .section-title::after {
+    content: '';
+    @apply absolute -bottom-2 left-0 w-12 h-0.5 bg-gradient-to-r from-accent to-transparent rounded-full;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent via-purple to-electric bg-clip-text text-transparent;
+  }
+
+  .floating-element {
+    @apply animate-float;
   }
 }
 

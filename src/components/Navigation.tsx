@@ -60,33 +60,33 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
   ]
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       isScrolled
-        ? 'bg-white/98 backdrop-blur-xl shadow-lg border-b border-slate-200'
-        : 'bg-white/95 backdrop-blur-xl border-b border-slate-200'
+        ? 'glass shadow-2xl border-b border-white/30'
+        : 'bg-white/90 backdrop-blur-2xl border-b border-white/20'
     }`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <button
             onClick={handleLogoClick}
-            className="flex items-center gap-2 text-xl font-serif font-semibold text-primary hover:text-accent transition-colors"
+            className="flex items-center gap-3 text-2xl font-serif font-bold text-primary hover:text-accent transition-all duration-300 transform hover:scale-105"
             title={!user ? "Triple-click for admin access" : "Home"}
           >
-            <span className="text-2xl text-gold">✞</span>
-            UCHSC
+            <span className="text-3xl text-gold animate-pulse">✞</span>
+            <span className="gradient-text">UCHSC</span>
           </button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-2">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => onPageChange(item.id)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                className={`px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 ${
                   currentPage === item.id
-                    ? 'text-accent bg-accent/5'
-                    : 'text-slate-600 hover:text-accent hover:bg-accent/5'
+                    ? 'bg-gradient-to-r from-accent to-purple text-white shadow-lg'
+                    : 'text-slate-700 hover:text-accent hover:bg-accent/10 hover:shadow-md'
                 }`}
               >
                 {item.label}
@@ -100,15 +100,15 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gold/10 text-primary hover:bg-gold/20 transition-colors"
+                  className="flex items-center gap-3 px-5 py-2.5 rounded-xl glass border border-gold/30 text-primary hover:border-gold/50 hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                 >
-                  <User className="h-4 w-4" />
-                  <span className="font-medium">{user.firstName}</span>
+                  <User className="h-5 w-5 text-gold" />
+                  <span className="font-semibold">{user.firstName}</span>
                 </button>
 
                 {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                    <div className="px-4 py-2 text-sm text-gray-600 border-b border-gray-100">
+                  <div className="absolute right-0 mt-3 w-56 glass rounded-2xl border border-white/30 shadow-2xl py-3 z-50 animate-scale-up">
+                    <div className="px-5 py-3 text-sm text-gray-700 border-b border-white/20 font-medium">
                       {user.email}
                     </div>
                     <button
@@ -116,21 +116,21 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                         logout()
                         setShowUserMenu(false)
                       }}
-                      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      className="flex items-center gap-3 w-full px-5 py-3 text-sm text-red-600 hover:bg-red-50/50 transition-all duration-200 rounded-xl mx-2 mt-2"
                     >
                       <LogOut className="h-4 w-4" />
-                      Sign Out
+                      <span className="font-medium">Sign Out</span>
                     </button>
                   </div>
                 )}
               </div>
             ) : showAdminAccess ? (
-              <div className="flex items-center gap-3 animate-fade-in">
+              <div className="flex items-center gap-3 animate-scale-up">
                 <button
                   onClick={() => setShowLoginForm(true)}
-                  className="px-4 py-2 bg-gold hover:bg-gold-600 text-white font-medium rounded-lg transition-colors"
+                  className="btn-electric font-bold shadow-xl hover:shadow-2xl"
                 >
-                  Admin Login
+                  Admin Access
                 </button>
                 <button
                   onClick={() => setShowAdminAccess(false)}
