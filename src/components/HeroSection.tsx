@@ -1,9 +1,12 @@
+import { getDailyVerse } from '@/data/dailyVerses'
+
 interface HeroSectionProps {
   onNavigateToDashboard: () => void
   onNavigateToAbout: () => void
 }
 
 export default function HeroSection({ onNavigateToDashboard, onNavigateToAbout }: HeroSectionProps) {
+  const dailyVerse = getDailyVerse()
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 relative overflow-hidden">
       {/* Background Pattern */}
@@ -27,12 +30,12 @@ export default function HeroSection({ onNavigateToDashboard, onNavigateToAbout }
 
         {/* Subtitle */}
         <p className="text-xl sm:text-2xl text-white/80 italic mb-4 animate-fade-in-up [animation-delay:400ms]">
-          &ldquo;For where two or three gather in my name, there am I with them.&rdquo;
+          &ldquo;{dailyVerse.verse}&rdquo;
         </p>
 
         {/* Verse Reference */}
         <p className="text-sm text-white/60 mb-12 animate-fade-in-up [animation-delay:600ms]">
-          Matthew 18:20
+          {dailyVerse.reference}
         </p>
 
         {/* CTA Buttons */}
