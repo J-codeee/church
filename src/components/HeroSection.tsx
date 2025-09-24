@@ -1,9 +1,12 @@
+import { getTodaysVerse } from '@/lib/daily-verses'
+
 interface HeroSectionProps {
   onNavigateToDashboard: () => void
   onNavigateToAbout: () => void
 }
 
 export default function HeroSection({ onNavigateToDashboard, onNavigateToAbout }: HeroSectionProps) {
+  const todaysVerse = getTodaysVerse()
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-900 via-accent-900 to-purple-900 relative overflow-hidden">
       {/* Animated Background Pattern */}
@@ -35,13 +38,13 @@ export default function HeroSection({ onNavigateToDashboard, onNavigateToAbout }
           </span>
         </h1>
 
-        {/* Subtitle */}
+        {/* Daily Verse */}
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 mb-6 animate-slide-up [animation-delay:400ms] border border-white/10">
           <p className="text-xl sm:text-2xl text-blue-100 italic font-light leading-relaxed">
-            &ldquo;For where two or three gather in my name, there am I with them.&rdquo;
+            &ldquo;{todaysVerse.text}&rdquo;
           </p>
           <p className="text-sm text-white/60 mt-3 font-medium">
-            Matthew 18:20
+            {todaysVerse.reference}
           </p>
         </div>
 
