@@ -17,6 +17,8 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
   const [showLoginForm, setShowLoginForm] = useState(false)
   const [showSignupForm, setShowSignupForm] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
+  const [logoClickCount, setLogoClickCount] = useState(0)
+  const [showAdminAccess, setShowAdminAccess] = useState(false)
 
   const { user, logout } = useAuth()
 
@@ -28,6 +30,27 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Handle logo clicks for admin access
+  useEffect(() => {
+    if (logoClickCount >= 3) {
+      setShowAdminAccess(true)
+      setLogoClickCount(0)
+      // Auto-hide after 10 seconds
+      const timer = setTimeout(() => setShowAdminAccess(false), 10000)
+      return () => clearTimeout(timer)
+    }
+  }, [logoClickCount])
+
+  const handleLogoClick = () => {
+    if (!user) {
+      setLogoClickCount(prev => prev + 1)
+      // Reset click count after 2 seconds if not completed
+      setTimeout(() => setLogoClickCount(0), 2000)
+    } else {
+      onPageChange('home')
+    }
+  }
 
   const navItems = [
     { id: 'home', label: 'Home' },
@@ -46,8 +69,9 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <button
-            onClick={() => onPageChange('home')}
+            onClick={handleLogoClick}
             className="flex items-center gap-2 text-xl font-serif font-semibold text-primary hover:text-accent transition-colors"
+            title={!user ? "Triple-click for admin access" : "Home"}
           >
             <span className="text-2xl text-gold">✞</span>
             UCHSC
@@ -70,7 +94,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
             ))}
           </div>
 
-          {/* Auth Buttons - Desktop */}
+          {/* Admin Access - Desktop */}
           <div className="hidden md:flex items-center gap-3">
             {user ? (
               <div className="relative">
@@ -100,22 +124,23 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                   </div>
                 )}
               </div>
-            ) : (
-              <>
-                <button
-                  onClick={() => setShowSignupForm(true)}
-                  className="px-4 py-2 text-primary hover:text-accent font-medium transition-colors"
-                >
-                  Sign Up
-                </button>
+            ) : showAdminAccess ? (
+              <div className="flex items-center gap-3 animate-fade-in">
                 <button
                   onClick={() => setShowLoginForm(true)}
-                  className="px-6 py-2 bg-gold hover:bg-gold-600 text-white font-medium rounded-lg transition-colors"
+                  className="px-4 py-2 bg-gold hover:bg-gold-600 text-white font-medium rounded-lg transition-colors"
                 >
-                  Login
+                  Admin Login
                 </button>
-              </>
-            )}
+                <button
+                  onClick={() => setShowAdminAccess(false)}
+                  className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                  title="Close"
+                >
+                  ×
+                </button>
+              </div>
+            ) : null}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -170,17 +195,8 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                       Sign Out
                     </button>
                   </div>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => {
-                        setShowSignupForm(true)
-                        setIsMobileMenuOpen(false)
-                      }}
-                      className="w-full px-4 py-2 text-primary hover:text-accent font-medium border border-primary hover:border-accent rounded-lg transition-colors"
-                    >
-                      Sign Up
-                    </button>
+                ) : showAdminAccess ? (
+                  <div className="space-y-2">
                     <button
                       onClick={() => {
                         setShowLoginForm(true)
@@ -188,9 +204,19 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                       }}
                       className="w-full px-4 py-2 bg-gold hover:bg-gold-600 text-white font-medium rounded-lg transition-colors"
                     >
-                      Login
+                      Admin Login
                     </button>
-                  </>
+                    <button
+                      onClick={() => setShowAdminAccess(false)}
+                      className="w-full px-4 py-2 text-gray-500 hover:text-gray-700 font-medium rounded-lg transition-colors"
+                    >
+                      Close
+                    </button>
+                  </div>
+                ) : (
+                  <div className="text-center py-4 text-sm text-gray-500 italic">
+                    Triple-click the logo for admin access
+                  </div>
                 )}
               </div>
             </div>

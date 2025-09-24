@@ -4,9 +4,11 @@ import React, { useState } from 'react'
 import { Plus, Edit, Trash2 } from 'lucide-react'
 import { Post } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
+import { useAuth } from '@/contexts/AuthContext'
 import PostModal from './PostModal'
 
 export default function Dashboard() {
+  const { user } = useAuth()
   const [posts, setPosts] = useState<Post[]>([
     {
       id: '1',
@@ -108,13 +110,15 @@ export default function Dashboard() {
               <option value="2024-01-01">January 1, 2024</option>
             </select>
           </div>
-          <button
-            onClick={handleAddPost}
-            className="btn btn-success flex items-center gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            Add New Post
-          </button>
+          {user && (
+            <button
+              onClick={handleAddPost}
+              className="btn btn-success flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Add New Post
+            </button>
+          )}
         </div>
 
         {/* Posts */}
@@ -126,22 +130,24 @@ export default function Dashboard() {
                 <div className="bg-accent/10 text-accent px-3 py-1.5 rounded-lg font-medium">
                   {formatDate(post.date)}
                 </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEditPost(post)}
-                    className="btn btn-primary flex items-center gap-2"
-                  >
-                    <Edit className="w-4 h-4" />
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDeletePost(post.id)}
-                    className="btn btn-danger flex items-center gap-2"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                    Delete
-                  </button>
-                </div>
+                {user && (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleEditPost(post)}
+                      className="btn btn-primary flex items-center gap-2"
+                    >
+                      <Edit className="w-4 h-4" />
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeletePost(post.id)}
+                      className="btn btn-danger flex items-center gap-2"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Post Content */}

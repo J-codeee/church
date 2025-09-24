@@ -56,8 +56,8 @@ export default function LoginForm({ onSwitchToSignup, onClose }: LoginFormProps)
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[100] p-4" style={{ top: 0, left: 0, width: '100vw', height: '100vh' }}>
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative max-h-[90vh] overflow-y-auto">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -155,17 +155,19 @@ export default function LoginForm({ onSwitchToSignup, onClose }: LoginFormProps)
           </button>
         </form>
 
-        {/* Footer */}
+        {/* Footer - Hidden Signup Access */}
         <div className="text-center mt-6 pt-6 border-t border-gray-200">
-          <p className="text-gray-600">
-            Don't have an account?{' '}
-            <button
-              onClick={onSwitchToSignup}
-              className="text-gold hover:text-gold-600 font-medium"
-            >
-              Sign up here
-            </button>
+          <p className="text-gray-600 text-sm">
+            Admin access only
           </p>
+          {/* Hidden signup access - double-click to reveal */}
+          <div
+            onDoubleClick={() => onSwitchToSignup()}
+            className="text-center py-2 cursor-pointer select-none"
+            title="Double-click for user registration"
+          >
+            <span className="text-xs text-gray-400">••</span>
+          </div>
         </div>
       </div>
     </div>

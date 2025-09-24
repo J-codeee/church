@@ -100,7 +100,7 @@ export default function SignupForm({ onSwitchToLogin, onClose }: SignupFormProps
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[100] p-4" style={{ top: 0, left: 0, width: '100vw', height: '100vh' }}>
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative max-h-[90vh] overflow-y-auto">
         {/* Close button */}
         <button

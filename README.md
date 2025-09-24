@@ -1,15 +1,39 @@
 # United with Christ through the Holy Spirit Church
 
-A modern, responsive church management application built with Next.js, TypeScript, and Tailwind CSS.
+A modern, responsive church management application with secure admin authentication, built with Next.js, TypeScript, and Tailwind CSS.
 
-## Features
+## 📚 **Documentation**
+
+All setup guides and usage instructions are in the **[`docs/`](./docs/)** folder:
+
+- **[📖 Complete Documentation](./docs/README.md)** - Full overview and navigation
+- **[🚀 Database Setup Guide](./docs/SETUP.md)** - Vercel database & deployment setup
+- **[🔐 Admin Access Guide](./docs/ADMIN_GUIDE.md)** - How to access and use admin features
+- **[⚡ Quick Reference Card](./docs/QUICK_REFERENCE.md)** - Handy reference for admin functions
+
+## 🏃‍♂️ **Quick Start**
+
+1. **Setup Database**: Follow [`docs/SETUP.md`](./docs/SETUP.md)
+2. **Learn Admin Access**: Read [`docs/ADMIN_GUIDE.md`](./docs/ADMIN_GUIDE.md)
+3. **Keep Reference**: Bookmark [`docs/QUICK_REFERENCE.md`](./docs/QUICK_REFERENCE.md)
+
+## ✨ **Features**
 
 - 🏠 **Modern Homepage** - Beautiful hero section with church information
-- 📊 **Dashboard** - Manage church posts with Bible verses and sections
-- 📖 **Bible Verse Management** - Interactive verse selector with all books of the Bible
+- 🔐 **Secure Admin System** - Hidden authentication for content management
+- 📊 **Daily Content Dashboard** - Manage church posts, verses, and announcements
+- 📖 **Bible Verse Management** - Interactive verse selector with all books
+- 🎭 **Role-Based Access** - Admin, Pastor, and Member permissions
 - 📱 **Responsive Design** - Works perfectly on all devices
-- 🎨 **Modern UI** - Clean, professional design with smooth animations
-- ⚡ **Fast Performance** - Built with Next.js for optimal speed
+- 🛡️ **Security First** - JWT authentication, password hashing, hidden controls
+
+## 🏛️ **Church Information**
+
+- **Service Time**: Every Saturday at 8:00 AM
+- **Location**: Esperanza, Sison, Pangasinan, Philippines
+- **Contact**: 09260252017
+- **Email**: jcohannzcordoviz76@gmail.com
+- **Find Us**: [Google Maps](https://maps.app.goo.gl/vabn1hDXqezC542HA)
 
 ## Getting Started
 

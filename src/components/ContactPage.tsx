@@ -9,26 +9,31 @@ export default function ContactPage() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="card p-6 text-center">
-            <h3 className="text-lg font-serif font-semibold text-primary mb-3">Sunday Service</h3>
-            <p className="text-slate-600 mb-2">Every Sunday at 9:00 AM</p>
+            <h3 className="text-lg font-serif font-semibold text-primary mb-3">Saturday Service</h3>
+            <p className="text-slate-600 mb-2">Every Saturday at 8:00 AM</p>
             <p className="text-slate-500 text-sm">Join us for worship and fellowship</p>
           </div>
 
           <div className="card p-6 text-center">
             <h3 className="text-lg font-serif font-semibold text-primary mb-3">Address</h3>
-            <p className="text-slate-600 mb-2">123 Faith Avenue</p>
-            <p className="text-slate-500 text-sm">Hope City, HC 12345</p>
+            <p className="text-slate-600 mb-2">Esperanza, Sison, Pangasinan</p>
+            <p className="text-slate-500 text-sm">Philippines</p>
           </div>
 
           <div className="card p-6 text-center">
             <h3 className="text-lg font-serif font-semibold text-primary mb-3">Phone</h3>
-            <p className="text-slate-600 mb-2">(555) 123-PRAY</p>
-            <p className="text-slate-500 text-sm">Available Monday - Friday</p>
+            <p className="text-slate-600 mb-2">09260252017</p>
+            <p className="text-slate-500 text-sm">Available for prayer and support</p>
           </div>
 
           <div className="card p-6 text-center">
             <h3 className="text-lg font-serif font-semibold text-primary mb-3">Email</h3>
-            <p className="text-slate-600 mb-2">info@uchsc.org</p>
+            <a
+              href="mailto:jcohannzcordoviz76@gmail.com"
+              className="text-slate-600 hover:text-gold transition-colors mb-2 block break-all text-sm sm:text-base"
+            >
+              jcohannzcordoviz76@gmail.com
+            </a>
             <p className="text-slate-500 text-sm">We&apos;d love to hear from you!</p>
           </div>
         </div>
@@ -55,7 +60,7 @@ export default function ContactPage() {
             </h2>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.769839814324!2d121.02395631482563!3d14.56834198977534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b5f0d8e5d4a3%3A0x7c9a5b1a5a5a5a5a!2sQuezon%20City%2C%20Metro%20Manila%2C%20Philippines!5e0!3m2!1sen!2sph!4v1640995200000!5m2!1sen!2sph"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3848.5647477847754!2d120.65885231484243!3d15.919781688541748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3390d1c5a5a5a5a5%3A0x5a5a5a5a5a5a5a5a!2sEsperanza%2C%20Sison%2C%20Pangasinan%2C%20Philippines!5e0!3m2!1sen!2sph!4v1640995200000!5m2!1sen!2sph"
                 width="100%"
                 height="300"
                 style={{ border: 0 }}
@@ -64,9 +69,16 @@ export default function ContactPage() {
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
-            <p className="text-center mt-4 text-slate-500 text-sm italic">
-              Click on the map to get directions to our church
-            </p>
+            <div className="text-center mt-4">
+              <a
+                href="https://maps.app.goo.gl/vabn1hDXqezC542HA"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-gold hover:text-gold-600 font-medium transition-colors"
+              >
+                📍 Get Directions to Our Church
+              </a>
+            </div>
           </div>
         </div>
       </div>
