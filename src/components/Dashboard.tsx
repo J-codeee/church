@@ -117,12 +117,13 @@ export default function Dashboard() {
         setIsModalOpen(false)
         setEditingPost(null)
       } else {
-        console.error('Failed to save post')
-        alert('Failed to save post. Please try again.')
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+        console.error('Failed to save post:', errorData)
+        alert(`Failed to save post: ${errorData.error || 'Please try again.'}${errorData.details ? `\n\nDetails: ${errorData.details}` : ''}`)
       }
     } catch (error) {
       console.error('Error saving post:', error)
-      alert('Error saving post. Please try again.')
+      alert(`Error saving post: ${error instanceof Error ? error.message : 'Please try again.'}`)
     }
   }
 

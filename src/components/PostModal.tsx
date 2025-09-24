@@ -200,31 +200,38 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
             {formData.customSections.map((section, index) => (
               <div key={index} className="form-group">
                 <div className="border-2 border-dashed border-green-300 rounded-lg p-4 bg-green-50">
-                  <div className="flex justify-between items-center mb-4">
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-primary mb-2">
+                      Section Title
+                    </label>
                     <input
                       type="text"
                       value={section.title}
-                      onChange={(e) => updateCustomSection(index, e.target.value, section.verses)}
-                      placeholder="Section Title (e.g., Closing)"
-                      className="input flex-1 mr-4"
+                      onChange={(e) => {
+                        e.stopPropagation()
+                        updateCustomSection(index, e.target.value, section.verses)
+                      }}
+                      placeholder="Enter section title (e.g., Closing, Special Prayer)"
+                      className="input w-full"
+                      autoComplete="off"
                     />
-                    <div className="flex gap-2">
-                      <button
-                        type="button"
-                        onClick={() => updateCustomSection(index, section.title, [...section.verses, ''])}
-                        className="px-3 py-1.5 bg-primary/10 text-primary text-sm font-medium rounded-md hover:bg-primary/20 transition-colors flex items-center gap-1 border border-primary/20 hover:border-primary/30"
-                      >
-                        <Plus className="w-3 h-3" />
-                        Add Verse
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => removeCustomSection(index)}
-                        className="px-3 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-md hover:bg-red-100 transition-colors border border-red-200 hover:border-red-300"
-                      >
-                        Remove Section
-                      </button>
-                    </div>
+                  </div>
+                  <div className="flex justify-end gap-2 mb-4">
+                    <button
+                      type="button"
+                      onClick={() => updateCustomSection(index, section.title, [...section.verses, ''])}
+                      className="px-3 py-1.5 bg-primary/10 text-primary text-sm font-medium rounded-md hover:bg-primary/20 transition-colors flex items-center gap-1 border border-primary/20 hover:border-primary/30"
+                    >
+                      <Plus className="w-3 h-3" />
+                      Add Verse
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => removeCustomSection(index)}
+                      className="px-3 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-md hover:bg-red-100 transition-colors border border-red-200 hover:border-red-300"
+                    >
+                      Remove Section
+                    </button>
                   </div>
                   <div className="space-y-3">
                     {section.verses.map((verse, verseIndex) => (
