@@ -109,22 +109,22 @@ export default function Dashboard() {
         // ===== EDIT MODE =====
         // When editing, we have two scenarios:
         // 1. Same date: Just update the existing post
-        // 2. Different date: Check if new date is free, then move post to new date
+        // 2. Different date: Check if new date is free FIRST, then move post
 
         if (editingPost.date === postData.date) {
           // Scenario 1: Editing same date - just update content
           // This should always work since we're targeting the specific post
         } else {
-          // Scenario 2: Changing date - check if new date conflicts
+          // Scenario 2: Changing date - FIRST check if new date conflicts
           const conflictingPost = posts.find(post =>
             post.date === postData.date && post.id !== editingPost.id
           )
           if (conflictingPost) {
             alert(`Cannot change date to ${postData.date} because a post already exists for that date. Please choose a different date.`)
-            return
+            return // STOP HERE - Don't delete anything!
           }
 
-          // Delete the old post first (we'll create new one with new date)
+          // Only if new date is FREE, then proceed to delete old post
           try {
             await fetch(`/api/daily-content/delete?id=${editingPost.id}`, {
               method: 'DELETE',

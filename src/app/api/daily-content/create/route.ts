@@ -25,15 +25,26 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Extra validation for create mode - prevent accidental overwrites
+    // Validation to prevent accidental overwrites
     if (!isEdit) {
-      // Check if a post already exists for this date
+      // CREATE MODE: Check if a post already exists for this date
       const existingPost = await getDailyContent(date)
       if (existingPost) {
         return NextResponse.json(
           { error: `A post already exists for ${date}. Please choose a different date or edit the existing post.` },
           { status: 409 } // 409 Conflict
         )
+      }
+    } else {
+      // EDIT MODE: Extra protection - if date changed, make sure target date is free
+      if (originalDate && originalDate !== date) {
+        const conflictingPost = await getDailyContent(date)
+        if (conflictingPost) {
+          return NextResponse.json(
+            { error: `Cannot change date to ${date} because a post already exists for that date.` },
+            { status: 409 } // 409 Conflict
+          )
+        }
       }
     }
 
