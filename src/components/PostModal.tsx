@@ -27,8 +27,14 @@ export default function PostModal({ post, onSave, onClose, onShowNotification }:
 
   useEffect(() => {
     if (post) {
+      // Ensure date is in YYYY-MM-DD format for HTML date input
+      const formatDateForInput = (dateString: string): string => {
+        const date = new Date(dateString)
+        return date.toISOString().split('T')[0]
+      }
+
       setFormData({
-        date: post.date,
+        date: formatDateForInput(post.date),
         intercessor: post.intercessor || '',
         opening: post.opening.length > 0 ? post.opening : [''],
         lessons: post.lessons.length > 0 ? post.lessons : [''],

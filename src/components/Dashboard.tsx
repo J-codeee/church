@@ -223,10 +223,10 @@ export default function Dashboard() {
 
         {/* Controls */}
         <div className="card p-6 mb-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            {/* Date Selection - Always on the left */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 order-1">
-              <label htmlFor="dateSelect" className="font-medium text-primary">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
+            {/* Date Selection - Far left */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-shrink-0">
+              <label htmlFor="dateSelect" className="font-medium text-primary whitespace-nowrap">
                 Select Date:
               </label>
               <select
@@ -235,24 +235,24 @@ export default function Dashboard() {
                 onChange={(e) => setSelectedDate(e.target.value)}
                 className="input w-auto min-w-48"
               >
-              {availableDates.length > 0 && latestDate ? (
-                <>
-                  <option value="latest">Latest ({formatDate(latestDate)})</option>
-                  {availableDates.map((date, index) => (
-                    <option key={date} value={date}>
-                      {formatDate(date)} {index === 0 ? '(Latest)' : ''}
-                    </option>
-                  ))}
-                </>
-              ) : (
-                <option value="latest">No posts available</option>
-              )}
+                {availableDates.length > 0 && latestDate ? (
+                  <>
+                    <option value="latest">Latest ({formatDate(latestDate)})</option>
+                    {availableDates.map((date, index) => (
+                      <option key={date} value={date}>
+                        {formatDate(date)} {index === 0 ? '(Latest)' : ''}
+                      </option>
+                    ))}
+                  </>
+                ) : (
+                  <option value="latest">No posts available</option>
+                )}
               </select>
             </div>
 
-            {/* Add New Post Button - Always on the right */}
+            {/* Add New Post Button - Far right */}
             {user && (
-              <div className="order-2">
+              <div className="flex-shrink-0 ml-auto">
                 <button
                   onClick={handleAddPost}
                   className="btn btn-success flex items-center gap-2"
