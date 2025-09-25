@@ -6,9 +6,12 @@ import { Post } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
 import { useAuth } from '@/contexts/AuthContext'
 import PostModal from './PostModal'
+import NotificationModal from './NotificationModal'
+import { useNotification } from '@/hooks/useNotification'
 
 export default function Dashboard() {
   const { user } = useAuth()
+  const { notification, showSuccess, showError, showWarning, hideNotification } = useNotification()
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -90,15 +93,15 @@ export default function Dashboard() {
           }
 
           // Show success notification
-          alert('Post deleted successfully!')
+          showSuccess('Post Deleted', 'The post has been deleted successfully!')
         } else {
           const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
           console.error('Failed to delete post:', errorData)
-          alert(`Failed to delete post: ${errorData.error || 'Please try again.'}`)
+          showError('Delete Failed', `Failed to delete post: ${errorData.error || 'Please try again.'}`)
         }
       } catch (error) {
         console.error('Error deleting post:', error)
-        alert(`Error deleting post: ${error instanceof Error ? error.message : 'Please try again.'}`)
+        showError('Error', `Error deleting post: ${error instanceof Error ? error.message : 'Please try again.'}`)
       }
     }
   }
@@ -120,7 +123,7 @@ export default function Dashboard() {
             post.date === postData.date && post.id !== editingPost.id
           )
           if (conflictingPost) {
-            alert(`Cannot change date to ${postData.date} because a post already exists for that date. Please choose a different date.`)
+            showWarning('Date Conflict', `Cannot change date to ${postData.date} because a post already exists for that date. Please choose a different date.`)
             return // STOP HERE - Don't delete anything!
           }
 
@@ -140,7 +143,7 @@ export default function Dashboard() {
         // When creating, NEVER allow overwriting existing posts
         const existingPost = posts.find(post => post.date === postData.date)
         if (existingPost) {
-          alert(`A post already exists for ${postData.date}. Please choose a different date or edit the existing post instead.`)
+          showWarning('Date Already Exists', `A post already exists for ${postData.date}. Please choose a different date or edit the existing post instead.`)
           return
         }
       }
@@ -171,15 +174,18 @@ export default function Dashboard() {
         setEditingPost(null)
 
         // Show success notification
-        alert(editingPost ? 'Post updated successfully!' : 'Post created successfully!')
+        showSuccess(
+          editingPost ? 'Post Updated' : 'Post Created',
+          editingPost ? 'The post has been updated successfully!' : 'The post has been created successfully!'
+        )
       } else {
         const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
         console.error('Failed to save post:', errorData)
-        alert(`Failed to save post: ${errorData.error || 'Please try again.'}${errorData.details ? `\n\nDetails: ${errorData.details}` : ''}`)
+        showError('Save Failed', `Failed to save post: ${errorData.error || 'Please try again.'}${errorData.details ? ` Details: ${errorData.details}` : ''}`)
       }
     } catch (error) {
       console.error('Error saving post:', error)
-      alert(`Error saving post: ${error instanceof Error ? error.message : 'Please try again.'}`)
+      showError('Error', `Error saving post: ${error instanceof Error ? error.message : 'Please try again.'}`)
     }
   }
 
@@ -216,17 +222,19 @@ export default function Dashboard() {
         </h1>
 
         {/* Controls */}
-        <div className="card p-6 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <label htmlFor="dateSelect" className="font-medium text-primary">
-              Select Date:
-            </label>
-            <select
-              id="dateSelect"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              className="input w-auto min-w-48"
-            >
+        <div className="card p-6 mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            {/* Date Selection - Always on the left */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 order-1">
+              <label htmlFor="dateSelect" className="font-medium text-primary">
+                Select Date:
+              </label>
+              <select
+                id="dateSelect"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="input w-auto min-w-48"
+              >
               {availableDates.length > 0 && latestDate ? (
                 <>
                   <option value="latest">Latest ({formatDate(latestDate)})</option>
@@ -239,17 +247,22 @@ export default function Dashboard() {
               ) : (
                 <option value="latest">No posts available</option>
               )}
-            </select>
+              </select>
+            </div>
+
+            {/* Add New Post Button - Always on the right */}
+            {user && (
+              <div className="order-2">
+                <button
+                  onClick={handleAddPost}
+                  className="btn btn-success flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add New Post
+                </button>
+              </div>
+            )}
           </div>
-          {user && (
-            <button
-              onClick={handleAddPost}
-              className="btn btn-success flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              Add New Post
-            </button>
-          )}
         </div>
 
         {/* Posts */}
@@ -328,7 +341,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Post Modal */}
       {isModalOpen && (
         <PostModal
           post={editingPost}
@@ -337,8 +350,23 @@ export default function Dashboard() {
             setIsModalOpen(false)
             setEditingPost(null)
           }}
+          onShowNotification={(type, title, message) => {
+            if (type === 'success') showSuccess(title, message)
+            else if (type === 'error') showError(title, message)
+            else if (type === 'warning') showWarning(title, message)
+            else showError(title, message) // fallback for info
+          }}
         />
       )}
+
+      {/* Notification Modal */}
+      <NotificationModal
+        isOpen={notification.isOpen}
+        onClose={hideNotification}
+        type={notification.type}
+        title={notification.title}
+        message={notification.message}
+      />
     </div>
   )
 }

@@ -39,6 +39,13 @@ export default function VerseSelector({ value, onChange, onRemove }: VerseSelect
       onChange(reference)
     } else if (!book && !chapter && !verse1) {
       onChange('')
+    } else if (book || chapter || verse1) {
+      // Incomplete selection - show partial info but don't submit
+      const parts = []
+      if (book) parts.push(book)
+      if (chapter) parts.push(`${chapter}:`)
+      if (verse1) parts.push(verse1)
+      onChange(`INCOMPLETE: ${parts.join(' ')}`)
     }
   }, [book, chapter, verse1, verse2, onChange])
 

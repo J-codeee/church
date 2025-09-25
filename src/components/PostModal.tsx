@@ -10,9 +10,10 @@ interface PostModalProps {
   post: Post | null
   onSave: (post: Omit<Post, 'id'>) => void
   onClose: () => void
+  onShowNotification?: (type: 'success' | 'error' | 'warning' | 'info', title: string, message: string) => void
 }
 
-export default function PostModal({ post, onSave, onClose }: PostModalProps) {
+export default function PostModal({ post, onSave, onClose, onShowNotification }: PostModalProps) {
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
     intercessor: '',
@@ -42,15 +43,30 @@ export default function PostModal({ post, onSave, onClose }: PostModalProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
+    // Check for incomplete verse selections
+    const allVerses = [
+      ...formData.opening,
+      ...formData.lessons,
+      ...formData.vision,
+      ...formData.speaker,
+      ...formData.customSections.flatMap(section => section.verses)
+    ]
+
+    const incompleteVerses = allVerses.filter(verse => verse.includes('INCOMPLETE:'))
+    if (incompleteVerses.length > 0) {
+      onShowNotification?.('warning', 'Incomplete Verses', 'Please complete all verse selections. Some verses are incomplete (missing book, chapter, or verse number).')
+      return
+    }
+
     const processedData = {
       ...formData,
-      opening: formData.opening.filter(v => v.trim()),
-      lessons: formData.lessons.filter(v => v.trim()),
-      vision: formData.vision.filter(v => v.trim()),
-      speaker: formData.speaker.filter(v => v.trim()),
+      opening: formData.opening.filter(v => v.trim() && !v.includes('INCOMPLETE:')),
+      lessons: formData.lessons.filter(v => v.trim() && !v.includes('INCOMPLETE:')),
+      vision: formData.vision.filter(v => v.trim() && !v.includes('INCOMPLETE:')),
+      speaker: formData.speaker.filter(v => v.trim() && !v.includes('INCOMPLETE:')),
       customSections: formData.customSections.map(section => ({
         ...section,
-        verses: section.verses.filter(v => v.trim())
+        verses: section.verses.filter(v => v.trim() && !v.includes('INCOMPLETE:'))
       })).filter(section => section.title.trim() && section.verses.length > 0)
     }
 

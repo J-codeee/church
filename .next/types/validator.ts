@@ -74,6 +74,33 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../src/app/api/daily-content/all/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/daily-content/all">> = Specific
+  const handler = {} as typeof import("../../src/app/api/daily-content/all/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../src/app/api/daily-content/create/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/daily-content/create">> = Specific
+  const handler = {} as typeof import("../../src/app/api/daily-content/create/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../src/app/api/daily-content/delete/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/daily-content/delete">> = Specific
+  const handler = {} as typeof import("../../src/app/api/daily-content/delete/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../src/app/api/daily-content/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/daily-content">> = Specific

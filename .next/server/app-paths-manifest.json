@@ -1,3 +1,10 @@
 {
+  "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/signup/route": "app/api/auth/signup/route.js",
+  "/api/daily-content/delete/route": "app/api/daily-content/delete/route.js",
+  "/api/daily-content/create/route": "app/api/daily-content/create/route.js",
+  "/api/daily-content/all/route": "app/api/daily-content/all/route.js",
+  "/api/daily-content/route": "app/api/daily-content/route.js",
   "/page": "app/page.js"
 }

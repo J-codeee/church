@@ -1,0 +1,10 @@
+{
+  "/api/auth/login/route": "/api/auth/login",
+  "/_not-found/page": "/_not-found",
+  "/api/auth/signup/route": "/api/auth/signup",
+  "/api/daily-content/delete/route": "/api/daily-content/delete",
+  "/api/daily-content/create/route": "/api/daily-content/create",
+  "/api/daily-content/all/route": "/api/daily-content/all",
+  "/api/daily-content/route": "/api/daily-content",
+  "/page": "/"
+}
