@@ -105,45 +105,58 @@ export default function Dashboard() {
 
   const handleSavePost = async (postData: Omit<Post, 'id'>) => {
     try {
-      // Check for duplicate date conflicts
       if (editingPost) {
-        // When editing, check if the new date conflicts with another existing post
-        const conflictingPost = posts.find(post =>
-          post.date === postData.date && post.id !== editingPost.id
-        )
-        if (conflictingPost) {
-          alert(`A post already exists for ${postData.date}. Please choose a different date.`)
-          return
-        }
+        // ===== EDIT MODE =====
+        // When editing, we have two scenarios:
+        // 1. Same date: Just update the existing post
+        // 2. Different date: Check if new date is free, then move post to new date
 
-        // For editing, we need to handle date changes properly
-        if (editingPost.date !== postData.date) {
-          // First delete the old post, then create new one with new date
+        if (editingPost.date === postData.date) {
+          // Scenario 1: Editing same date - just update content
+          // This should always work since we're targeting the specific post
+        } else {
+          // Scenario 2: Changing date - check if new date conflicts
+          const conflictingPost = posts.find(post =>
+            post.date === postData.date && post.id !== editingPost.id
+          )
+          if (conflictingPost) {
+            alert(`Cannot change date to ${postData.date} because a post already exists for that date. Please choose a different date.`)
+            return
+          }
+
+          // Delete the old post first (we'll create new one with new date)
           try {
             await fetch(`/api/daily-content/delete?id=${editingPost.id}`, {
               method: 'DELETE',
             })
           } catch (deleteError) {
-            console.error('Error deleting old post during edit:', deleteError)
-            alert('Error updating post. Please try again.')
+            console.error('Error deleting old post during date change:', deleteError)
+            alert('Error changing post date. Please try again.')
             return
           }
         }
       } else {
-        // When creating new post, check for duplicates
+        // ===== CREATE MODE =====
+        // When creating, NEVER allow overwriting existing posts
         const existingPost = posts.find(post => post.date === postData.date)
         if (existingPost) {
-          alert(`A post already exists for ${postData.date}. Please choose a different date or edit the existing post.`)
+          alert(`A post already exists for ${postData.date}. Please choose a different date or edit the existing post instead.`)
           return
         }
       }
 
+      // Send the request (will either create new or update via UPSERT)
       const response = await fetch('/api/daily-content/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(postData),
+        body: JSON.stringify({
+          ...postData,
+          // Add a flag to indicate if this is an edit operation
+          isEdit: !!editingPost,
+          originalDate: editingPost?.date
+        }),
       })
 
       if (response.ok) {

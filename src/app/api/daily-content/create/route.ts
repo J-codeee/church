@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createOrUpdateDailyContent } from '@/lib/database'
+import { createOrUpdateDailyContent, getDailyContent } from '@/lib/database'
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,7 +12,9 @@ export async function POST(request: NextRequest) {
       vision,
       speaker,
       customSections,
-      notes
+      notes,
+      isEdit,
+      originalDate
     } = body
 
     // Validate required fields
@@ -21,6 +23,18 @@ export async function POST(request: NextRequest) {
         { error: 'Date is required' },
         { status: 400 }
       )
+    }
+
+    // Extra validation for create mode - prevent accidental overwrites
+    if (!isEdit) {
+      // Check if a post already exists for this date
+      const existingPost = await getDailyContent(date)
+      if (existingPost) {
+        return NextResponse.json(
+          { error: `A post already exists for ${date}. Please choose a different date or edit the existing post.` },
+          { status: 409 } // 409 Conflict
+        )
+      }
     }
 
     // For now, we'll use null for created_by since we don't have user authentication
