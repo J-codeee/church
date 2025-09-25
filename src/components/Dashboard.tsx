@@ -72,7 +72,10 @@ export default function Dashboard() {
   }
 
   const handleDeletePost = async (postId: string) => {
-    if (window.confirm('Are you sure you want to delete this post?')) {
+    const post = posts.find(p => p.id === postId)
+    const postDate = post ? post.date : 'this post'
+
+    if (window.confirm(`Are you sure you want to delete the post for ${postDate}? This action cannot be undone.`)) {
       try {
         const response = await fetch(`/api/daily-content/delete?id=${postId}`, {
           method: 'DELETE',
@@ -85,19 +88,56 @@ export default function Dashboard() {
             const updatedPosts = await postsResponse.json()
             setPosts(updatedPosts)
           }
+
+          // Show success notification
+          alert('Post deleted successfully!')
         } else {
-          console.error('Failed to delete post')
-          alert('Failed to delete post. Please try again.')
+          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+          console.error('Failed to delete post:', errorData)
+          alert(`Failed to delete post: ${errorData.error || 'Please try again.'}`)
         }
       } catch (error) {
         console.error('Error deleting post:', error)
-        alert('Error deleting post. Please try again.')
+        alert(`Error deleting post: ${error instanceof Error ? error.message : 'Please try again.'}`)
       }
     }
   }
 
   const handleSavePost = async (postData: Omit<Post, 'id'>) => {
     try {
+      // Check for duplicate date conflicts
+      if (editingPost) {
+        // When editing, check if the new date conflicts with another existing post
+        const conflictingPost = posts.find(post =>
+          post.date === postData.date && post.id !== editingPost.id
+        )
+        if (conflictingPost) {
+          alert(`A post already exists for ${postData.date}. Please choose a different date.`)
+          return
+        }
+
+        // For editing, we need to handle date changes properly
+        if (editingPost.date !== postData.date) {
+          // First delete the old post, then create new one with new date
+          try {
+            await fetch(`/api/daily-content/delete?id=${editingPost.id}`, {
+              method: 'DELETE',
+            })
+          } catch (deleteError) {
+            console.error('Error deleting old post during edit:', deleteError)
+            alert('Error updating post. Please try again.')
+            return
+          }
+        }
+      } else {
+        // When creating new post, check for duplicates
+        const existingPost = posts.find(post => post.date === postData.date)
+        if (existingPost) {
+          alert(`A post already exists for ${postData.date}. Please choose a different date or edit the existing post.`)
+          return
+        }
+      }
+
       const response = await fetch('/api/daily-content/create', {
         method: 'POST',
         headers: {
@@ -116,6 +156,9 @@ export default function Dashboard() {
 
         setIsModalOpen(false)
         setEditingPost(null)
+
+        // Show success notification
+        alert(editingPost ? 'Post updated successfully!' : 'Post created successfully!')
       } else {
         const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
         console.error('Failed to save post:', errorData)
@@ -243,6 +286,21 @@ export default function Dashboard() {
                   {renderSection(section.title, section.verses, '📖')}
                 </div>
               ))}
+
+              {/* Notes Section */}
+              {post.notes && (
+                <div className="mb-6">
+                  <div className="section-title">
+                    <span className="text-lg">📝</span>
+                    Notes
+                  </div>
+                  <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border-l-4 border-gold">
+                    <div className="prose prose-sm max-w-none dark:prose-invert">
+                      <p className="text-slate-700 dark:text-slate-300 whitespace-pre-wrap">{post.notes}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ))
           )}
