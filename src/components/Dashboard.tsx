@@ -179,12 +179,12 @@ export default function Dashboard() {
           {icon && <span className="text-lg">{icon}</span>}
           {title}
         </div>
-        <div className="bg-slate-50 p-4 rounded-lg border-l-4 border-accent">
+        <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border-l-4 border-accent">
           {title === 'Intercessor' ? (
-            <div className="p-2">{verses[0]}</div>
+            <div className="p-2 bg-white dark:bg-slate-700 rounded border font-medium text-primary dark:text-white">{verses[0]}</div>
           ) : (
             verses.map((verse, index) => (
-              <div key={index} className="py-2 px-3 mb-2 last:mb-0 bg-white rounded border font-medium text-primary">
+              <div key={index} className="py-2 px-3 mb-2 last:mb-0 bg-white dark:bg-slate-700 rounded border font-medium text-primary dark:text-white">
                 {verse}
               </div>
             ))
@@ -294,7 +294,7 @@ export default function Dashboard() {
                     <span className="text-lg">📝</span>
                     Notes
                   </div>
-                  <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border-l-4 border-gold">
+                  <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border-l-4 border-accent">
                     <div className="prose prose-sm max-w-none dark:prose-invert">
                       <p className="text-slate-700 dark:text-slate-300 whitespace-pre-wrap">{post.notes}</p>
                     </div>
