@@ -71,7 +71,7 @@ export default function ContactPage() {
             </div>
             <div className="text-center mt-4">
               <a
-                href="https://maps.app.goo.gl/vabn1hDXqezC542HA"
+                href="https://maps.app.goo.gl/8faySNAa3iZk8RZPA"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-gold hover:text-gold-600 font-medium transition-colors"

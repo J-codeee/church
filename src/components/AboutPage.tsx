@@ -52,7 +52,7 @@ export default function AboutPage() {
 
           <div className="card p-8">
             <p className="text-slate-600 leading-relaxed text-center">
-              Join us every Sunday for worship, fellowship, and spiritual growth as we journey
+              Join us every Saturday for worship, fellowship, and spiritual growth as we journey
               together in faith.
             </p>
           </div>
