@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
+import ForgotPasswordModal from './ForgotPasswordModal'
 
 interface LoginFormProps {
   onSwitchToSignup: () => void
@@ -17,6 +18,7 @@ export default function LoginForm({ onSwitchToSignup, onClose }: LoginFormProps)
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<{[key: string]: string}>({})
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
 
   const { login } = useAuth()
 
@@ -138,6 +140,17 @@ export default function LoginForm({ onSwitchToSignup, onClose }: LoginFormProps)
             {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
           </div>
 
+          {/* Forgot Password */}
+          <div className="flex justify-end -mt-2">
+            <button
+              type="button"
+              onClick={() => setShowForgotPassword(true)}
+              className="text-sm text-gold hover:text-gold-600 transition-colors font-medium"
+            >
+              Forgot Password?
+            </button>
+          </div>
+
           {/* Submit button */}
           <button
             type="submit"
@@ -170,6 +183,11 @@ export default function LoginForm({ onSwitchToSignup, onClose }: LoginFormProps)
           </div>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      {showForgotPassword && (
+        <ForgotPasswordModal onClose={() => setShowForgotPassword(false)} />
+      )}
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
 import { User } from './database-types'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-in-production'
@@ -59,4 +60,9 @@ export function validatePassword(password: string): string | null {
 export function validateEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return emailRegex.test(email)
+}
+
+// Generate secure password reset token
+export function generatePasswordResetToken(): string {
+  return crypto.randomBytes(32).toString('hex')
 }

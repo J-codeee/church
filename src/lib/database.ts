@@ -75,6 +75,67 @@ export async function updateLastLogin(userId: string): Promise<void> {
   }
 }
 
+export async function createPasswordResetToken(email: string, token: string, expiresAt: Date): Promise<void> {
+  try {
+    // First, delete any existing tokens for this email
+    await sql`
+      DELETE FROM password_reset_tokens
+      WHERE email = ${email}
+    `
+
+    // Create new token
+    await sql`
+      INSERT INTO password_reset_tokens (email, token, expires_at)
+      VALUES (${email}, ${token}, ${expiresAt.toISOString()})
+    `
+  } catch (error) {
+    console.error('Error creating password reset token:', error)
+    throw error
+  }
+}
+
+export async function getPasswordResetToken(token: string): Promise<{ email: string; expiresAt: Date } | null> {
+  try {
+    const result = await sql`
+      SELECT email, expires_at as "expiresAt"
+      FROM password_reset_tokens
+      WHERE token = ${token}
+    `
+
+    if (result.rows.length === 0) return null
+
+    return result.rows[0] as { email: string; expiresAt: Date }
+  } catch (error) {
+    console.error('Error getting password reset token:', error)
+    return null
+  }
+}
+
+export async function deletePasswordResetToken(token: string): Promise<void> {
+  try {
+    await sql`
+      DELETE FROM password_reset_tokens
+      WHERE token = ${token}
+    `
+  } catch (error) {
+    console.error('Error deleting password reset token:', error)
+  }
+}
+
+export async function updateUserPassword(email: string, passwordHash: string): Promise<void> {
+  try {
+    await sql`
+      UPDATE users
+      SET password_hash = ${passwordHash},
+          updated_at = CURRENT_TIMESTAMP
+      WHERE email = ${email}
+    `
+  } catch (error) {
+    console.error('Error updating user password:', error)
+    throw error
+  }
+}
+
 // Daily content database operations
 export async function getDailyContent(date: string): Promise<DailyContent | null> {
   try {
