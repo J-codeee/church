@@ -78,7 +78,7 @@ export default function ForgotPasswordModal({ onClose }: ForgotPasswordModalProp
                 Forgot Your Password?
               </h2>
               <p className="text-gray-600 text-sm">
-                Enter your email address and we'll send you a link to reset your password
+                Enter your email address and we&apos;ll send you a link to reset your password
               </p>
             </div>
 
@@ -146,10 +146,10 @@ export default function ForgotPasswordModal({ onClose }: ForgotPasswordModalProp
               Check Your Email
             </h2>
             <p className="text-gray-600 mb-6">
-              We've sent a password reset link to <span className="font-medium text-primary">{email}</span>
+              We&apos;ve sent a password reset link to <span className="font-medium text-primary">{email}</span>
             </p>
             <p className="text-sm text-gray-500 mb-8">
-              The link will expire in 1 hour. If you don't see the email, check your spam folder.
+              The link will expire in 1 hour. If you don&apos;t see the email, check your spam folder.
             </p>
             <button
               onClick={onClose}
