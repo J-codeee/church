@@ -333,9 +333,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                         </motion.button>
                       </motion.div>
                     ) : (
-                      <div className="text-center py-4 text-sm text-neutral-500 dark:text-neutral-400 italic">
-                        
-                      </div>
+      
                     )}
                   </div>
                 </div>
