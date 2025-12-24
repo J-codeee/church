@@ -334,7 +334,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                       </motion.div>
                     ) : (
                       <div className="text-center py-4 text-sm text-neutral-500 dark:text-neutral-400 italic">
-                        Triple-click the logo for admin access
+                        
                       </div>
                     )}
                   </div>
