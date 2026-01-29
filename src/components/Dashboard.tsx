@@ -226,7 +226,7 @@ export default function Dashboard() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
             {/* Date Selection - Far left */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-shrink-0">
-              <label htmlFor="dateSelect" className="font-medium text-primary whitespace-nowrap">
+              <label htmlFor="dateSelect" className="font-medium text-primary whitespace-nowrap dark:text-accent-100">
                 Select Date:
               </label>
               <select
