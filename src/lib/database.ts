@@ -265,3 +265,28 @@ export async function getRecentDailyContent(limit: number = 7): Promise<DailyCon
     return []
   }
 }
+
+export async function getAllDailyContent(): Promise<DailyContent[]> {
+  try {
+    const result = await sql`
+      SELECT id, date, intercessor, opening, lessons, vision, speaker,
+             custom_sections as "customSections", notes,
+             created_by as "createdBy", created_at as "createdAt",
+             updated_at as "updatedAt"
+      FROM daily_content
+      ORDER BY date DESC
+    `
+
+    return result.rows.map(row => ({
+      ...row,
+      opening: Array.isArray(row.opening) ? row.opening : (row.opening ? JSON.parse(row.opening) : []),
+      lessons: Array.isArray(row.lessons) ? row.lessons : (row.lessons ? JSON.parse(row.lessons) : []),
+      vision: Array.isArray(row.vision) ? row.vision : (row.vision ? JSON.parse(row.vision) : []),
+      speaker: Array.isArray(row.speaker) ? row.speaker : (row.speaker ? JSON.parse(row.speaker) : []),
+      customSections: Array.isArray(row.customSections) ? row.customSections : (row.customSections ? JSON.parse(row.customSections) : [])
+    })) as DailyContent[]
+  } catch (error) {
+    console.error('Error getting all daily content:', error)
+    return []
+  }
+}

@@ -14,6 +14,7 @@ export default function Dashboard() {
   const { notification, showSuccess, showError, showWarning, hideNotification } = useNotification()
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
 
   const [selectedDate, setSelectedDate] = useState('latest')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -23,22 +24,28 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        setLoadError(null)
         const response = await fetch('/api/daily-content/all')
         if (response.ok) {
           const data = await response.json()
           setPosts(data)
         } else {
-          console.error('Failed to fetch posts')
+          const errorData = await response.json().catch(() => ({ error: 'Failed to fetch posts' }))
+          console.error('Failed to fetch posts:', errorData)
+          setLoadError(errorData?.error || 'Failed to fetch posts')
+          showError('Load Failed', errorData?.error || 'Failed to fetch posts. Please try again.')
         }
       } catch (error) {
         console.error('Error fetching posts:', error)
+        setLoadError(error instanceof Error ? error.message : 'Failed to fetch')
+        showError('Network Error', 'Failed to fetch posts. Make sure the server is running and try again.')
       } finally {
         setLoading(false)
       }
     }
 
     fetchPosts()
-  }, [])
+  }, [showError])
 
   // Get unique dates from posts and sort them (latest first)
   const availableDates = useMemo(() => {
@@ -198,12 +205,17 @@ export default function Dashboard() {
           {icon && <span className="text-lg">{icon}</span>}
           {title}
         </div>
-        <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border-l-4 border-accent">
+        <div className="glass p-4 rounded-2xl border border-white/15 dark:border-white/10">
           {title === 'Intercessor' ? (
-            <div className="p-2 bg-white dark:bg-slate-700 rounded border font-medium text-primary dark:text-white">{verses[0]}</div>
+            <div className="p-3 bg-white/70 dark:bg-neutral-900/60 rounded-xl border border-white/20 dark:border-white/10 font-medium text-neutral-900 dark:text-white">
+              {verses[0]}
+            </div>
           ) : (
             verses.map((verse, index) => (
-              <div key={index} className="py-2 px-3 mb-2 last:mb-0 bg-white dark:bg-slate-700 rounded border font-medium text-primary dark:text-white">
+              <div
+                key={index}
+                className="py-2.5 px-3.5 mb-2 last:mb-0 bg-white/70 dark:bg-neutral-900/60 rounded-xl border border-white/20 dark:border-white/10 font-medium text-neutral-900 dark:text-white"
+              >
                 {verse}
               </div>
             ))
@@ -214,26 +226,26 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="pt-20 min-h-screen bg-slate-50">
+    <div className="pt-20 min-h-screen">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl sm:text-4xl font-serif font-semibold text-center text-primary mb-12 relative">
+        <h1 className="text-3xl sm:text-4xl font-serif font-semibold text-center text-primary-900 dark:text-white mb-12 relative">
           Church Dashboard
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gold rounded-full"></div>
         </h1>
 
         {/* Controls */}
-        <div className="card p-6 mb-8">
+        <div className="card-glass p-6 mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
             {/* Date Selection - Far left */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-shrink-0">
-              <label htmlFor="dateSelect" className="font-medium text-primary whitespace-nowrap dark:text-accent-100">
+              <label htmlFor="dateSelect" className="font-medium text-primary-900 dark:text-white whitespace-nowrap">
                 Select Date:
               </label>
               <select
                 id="dateSelect"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="input w-auto min-w-48"
+                className="input-glass w-auto min-w-48"
               >
                 {availableDates.length > 0 && latestDate ? (
                   <>
@@ -268,15 +280,23 @@ export default function Dashboard() {
         {/* Posts */}
         <div className="space-y-6">
           {loading ? (
-            <div className="card p-12 text-center">
-              <p className="text-slate-500 text-lg">Loading posts...</p>
+            <div className="card-glass p-12 text-center">
+              <p className="text-neutral-600 dark:text-neutral-300 text-lg">Loading posts...</p>
+            </div>
+          ) : loadError ? (
+            <div className="card-glass p-10 text-center">
+              <div className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">Couldn’t load posts</div>
+              <div className="text-sm text-neutral-600 dark:text-neutral-300 mb-6 break-words">{loadError}</div>
+              <button className="btn btn-primary" onClick={() => window.location.reload()}>
+                Retry
+              </button>
             </div>
           ) : (
             filteredPosts.map((post) => (
-            <div key={post.id} className="card p-6 hover:shadow-xl transition-all duration-300">
+            <div key={post.id} className="card-glass p-6 hover:shadow-xl transition-all duration-300">
               {/* Post Header */}
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-slate-200">
-                <div className="bg-accent/10 text-accent px-3 py-1.5 rounded-lg font-medium">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-white/10 dark:border-white/10">
+                <div className="bg-accent-500/10 text-accent-700 dark:text-accent-300 px-3 py-1.5 rounded-xl font-medium border border-accent-500/15">
                   {formatDate(post.date)}
                 </div>
                 {user && (
@@ -320,9 +340,9 @@ export default function Dashboard() {
                     <span className="text-lg">📝</span>
                     Notes
                   </div>
-                  <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border-l-4 border-accent">
+                  <div className="glass p-4 rounded-2xl border border-white/15 dark:border-white/10">
                     <div className="prose prose-sm max-w-none dark:prose-invert">
-                      <p className="text-slate-700 dark:text-slate-300 whitespace-pre-wrap">{post.notes}</p>
+                      <p className="text-neutral-700 dark:text-neutral-200 whitespace-pre-wrap">{post.notes}</p>
                     </div>
                   </div>
                 </div>
@@ -332,8 +352,8 @@ export default function Dashboard() {
           )}
 
           {!loading && filteredPosts.length === 0 && (
-            <div className="card p-12 text-center">
-              <p className="text-slate-500 text-lg italic">
+            <div className="card-glass p-12 text-center">
+              <p className="text-neutral-600 dark:text-neutral-300 text-lg italic">
                 {posts.length === 0 ? 'No posts available' : 'No posts found for selected date'}
               </p>
             </div>

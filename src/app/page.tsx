@@ -100,7 +100,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-white dark:bg-neutral-950 transition-colors duration-300">
+    <main className="min-h-screen bg-white dark:bg-neutral-950 transition-colors duration-300 pb-[calc(5.75rem+env(safe-area-inset-bottom))] lg:pb-0">
       <Navigation currentPage={currentPage} onPageChange={setCurrentPage} />
 
       <AnimatePresence mode="wait">
